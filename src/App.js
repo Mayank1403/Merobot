@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import {useState} from 'react';
+import Canvas from './Canvas';
+import Rectangle from './Rectangle';
+// import CanvasTry from './CanvasTry';
 
 function App() {
+  const [selection, setSelection] = useState('pencil');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello This is just the starting</h1>
+      <select
+        value = {selection}
+        onChange = {e=>setSelection(e.target.value)}
+      >
+        <option value = "pencil">Pencil</option>
+        <option value = "rectangle">Rectangle</option>
+      </select>
+      {(selection === "pencil") && <Canvas/>}
+      {/* {(selection === "rectangle") && <CanvasTry/>} */}
+      {(selection === "rectangle") && <Rectangle/>}
     </div>
   );
 }
