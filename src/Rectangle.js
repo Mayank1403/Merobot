@@ -61,7 +61,6 @@ export default class Rectangle extends Component{
                 <Layer>
                     <Text text = "Draw a thing!"/>
                     {this.state.line.map((line, i)=>(
-                        // <Line key={i} points = {line} stroke = "red" />
                         <Rect 
                             key={i}
                             x={line[0]}
