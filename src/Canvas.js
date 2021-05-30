@@ -32,6 +32,7 @@ const Canvas = (props) => {
   const [lines, setLines] = useState([]);
   const [newLine, setNewLine] = useState([]);
 
+  const color = props.color;
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -58,7 +59,7 @@ const Canvas = (props) => {
       const { x, y } = event.target.getStage().getPointerPosition();
       const points = [x, y];
       setNewLine([
-        { points, closed: false, key: "0", stroke: "red", strokeWidth: 3 },
+        { points, closed: false, key: "0", stroke: color, strokeWidth: 3 },
       ]);
     }
   };
@@ -75,7 +76,7 @@ const Canvas = (props) => {
           width: x - sx,
           height: y - sy,
           key: rectangles.length + 1,
-          stroke: "red",
+          stroke: color,
           strokeWidth: 3,
         };
         if (annotationToAdd.width !== 0 && annotationToAdd.height !== 0)
@@ -104,10 +105,11 @@ const Canvas = (props) => {
       const newToAdd = {
         points: newLine[0].points,
         closed: close,
+        stroke: color,
         key: lines.length + 1,
       };
       if (close) 
-      lines.push(newToAdd);
+        lines.push(newToAdd);
       setNewLine([]);
       setLines(lines);
     }
@@ -126,7 +128,7 @@ const Canvas = (props) => {
             width: x - sx,
             height: y - sy,
             key: "0",
-            stroke: "red",
+            stroke: color,
             strokeWidth: 3,
           },
         ]);
@@ -147,6 +149,7 @@ const Canvas = (props) => {
         {
           points: lastLine,
           closed: false,
+          stroke: color,
           key: "0",
         },
       ]);
@@ -195,7 +198,7 @@ const Canvas = (props) => {
           <LineComponent
             keyValue={line.key}
             points={line.points}
-            stroke="red"
+            stroke={line.stroke}
             closed={line.closed}
             fill="blue"
             strokeWidth= {3}
