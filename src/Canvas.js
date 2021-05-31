@@ -59,7 +59,7 @@ const Canvas = (props) => {
       const { x, y } = event.target.getStage().getPointerPosition();
       const points = [x, y];
       setNewLine([
-        { points, closed: false, key: "0", stroke: color, strokeWidth: 3 },
+        { points, closed: false, key: "0", stroke: color, strokeWidth: 5 },
       ]);
     }
   };
@@ -77,7 +77,7 @@ const Canvas = (props) => {
           height: y - sy,
           key: rectangles.length + 1,
           stroke: color,
-          strokeWidth: 3,
+          strokeWidth: 5,
         };
         if (annotationToAdd.width !== 0 && annotationToAdd.height !== 0)
           rectangles.push(annotationToAdd);
@@ -129,7 +129,7 @@ const Canvas = (props) => {
             height: y - sy,
             key: "0",
             stroke: color,
-            strokeWidth: 3,
+            strokeWidth: 5,
           },
         ]);
       }
@@ -173,8 +173,8 @@ const Canvas = (props) => {
           ? handleRectangleMouseMove
           : handleLineMouseMove
       }
-      width={window.innerWidth}
-      height={window.innerHeight}
+      width={window.innerWidth-(0.2*window.innerWidth)}
+      height={window.innerHeight-(0.05*window.innerHeight)}
     >
       <Layer>
         {annotationsToDraw.map((value, i) => {

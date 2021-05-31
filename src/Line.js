@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Stage, Line, Layer, Text } from "react-konva";
+import React from "react";
+import {Line} from "react-konva";
 
 const LineComponent = (props) => {
   // const [lines, setLines] = useState([]);
