@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stage, Layer, Rect } from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
@@ -31,6 +31,8 @@ const Canvas = (props) => {
   const [selectedId, selectShape] = useState(null);
   const [lines, setLines] = useState([]);
   const [newLine, setNewLine] = useState([]);
+  const [canvasHeight, setCanvasHeight] = useState([]);
+  const [canvasWidth, setCanvasWidth] = useState([]);
 
   const color = props.color;
   const checkDeselect = (e) => {
@@ -108,8 +110,7 @@ const Canvas = (props) => {
         stroke: color,
         key: lines.length + 1,
       };
-      if (close) 
-        lines.push(newToAdd);
+      if (close) lines.push(newToAdd);
       setNewLine([]);
       setLines(lines);
     }
@@ -156,6 +157,13 @@ const Canvas = (props) => {
     }
   };
 
+  useEffect(() => {
+    const totalHeight = window.innerHeight;
+    const totalWidth = window.innerWidth;
+    setCanvasHeight(totalHeight * 0.93);
+    setCanvasWidth(totalWidth * 0.75);
+  }, []);
+
   const annotationsToDraw = [...rectangles, ...newAnnotation];
   const lineToDraw = [...lines, ...newLine];
   return (
@@ -173,8 +181,10 @@ const Canvas = (props) => {
           ? handleRectangleMouseMove
           : handleLineMouseMove
       }
-      width={window.innerWidth-(0.2*window.innerWidth)}
-      height={window.innerHeight-(0.05*window.innerHeight)}
+      // width={window.innerWidth-(0.15*window.innerWidth)}
+      // height={window.innerHeight-(0.05*window.innerHeight)}
+      width={canvasWidth}
+      height={canvasHeight}
     >
       <Layer>
         {annotationsToDraw.map((value, i) => {
@@ -201,7 +211,7 @@ const Canvas = (props) => {
             stroke={line.stroke}
             closed={line.closed}
             fill="blue"
-            strokeWidth= {3}
+            strokeWidth={3}
           />
         ))}
       </Layer>
