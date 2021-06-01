@@ -100,16 +100,21 @@ const Canvas = (props) => {
       if (dist < 10) {
         close = true;
       }
-      newLine[0].points.push(x);
-      newLine[0].points.push(y);
-      const newToAdd = {
-        points: newLine[0].points,
-        closed: close,
-        stroke: color,
-        key: lines.length + 1,
-      };
-      if (close) 
+
+      if(close){
+        let input_label = prompt("Please enter a label for the component", "label");
+        newLine[0].points.push(x);
+        newLine[0].points.push(y);
+        const newToAdd = {
+          points: newLine[0].points,
+          label: input_label,
+          closed: close,
+          stroke: color,
+          key: lines.length + 1,
+        };
         lines.push(newToAdd);
+      }
+
       setNewLine([]);
       setLines(lines);
     }
@@ -174,7 +179,7 @@ const Canvas = (props) => {
           : handleLineMouseMove
       }
       width={window.innerWidth-(0.2*window.innerWidth)}
-      height={window.innerHeight-(0.05*window.innerHeight)}
+      height={window.innerHeight-(0.15*window.innerHeight)}
     >
       <Layer>
         {annotationsToDraw.map((value, i) => {
@@ -196,6 +201,7 @@ const Canvas = (props) => {
         })}
         {lineToDraw.map((line) => (
           <LineComponent
+            key = {line.key}
             keyValue={line.key}
             points={line.points}
             stroke={line.stroke}
