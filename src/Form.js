@@ -4,9 +4,9 @@ export const RECTANGLE = "rectangle";
 const Form = props => {
     return (
         <div className = "flex-child sidebar">
-            
+
             <h2>Fill the Query</h2>
-            <form className = "form">
+            <form className = "form" onSubmit={(e) => e.preventDefault()}>
                 <label>Type in Input</label>
                 <input 
                     type = "text"
