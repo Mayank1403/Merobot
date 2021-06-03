@@ -102,15 +102,24 @@ const Canvas = (props) => {
       if (dist < 10) {
         close = true;
       }
-      newLine[0].points.push(x);
-      newLine[0].points.push(y);
-      const newToAdd = {
-        points: newLine[0].points,
-        closed: close,
-        stroke: color,
-        key: lines.length + 1,
-      };
-      if (close) lines.push(newToAdd);
+
+      if (close) {
+        let input_label = prompt(
+          "Please enter a label for the component",
+          "label"
+        );
+        newLine[0].points.push(x);
+        newLine[0].points.push(y);
+        const newToAdd = {
+          points: newLine[0].points,
+          label: input_label,
+          closed: close,
+          stroke: color,
+          key: lines.length + 1,
+        };
+        lines.push(newToAdd);
+      }
+
       setNewLine([]);
       setLines(lines);
     }
@@ -160,7 +169,7 @@ const Canvas = (props) => {
   useEffect(() => {
     const totalHeight = window.innerHeight;
     const totalWidth = window.innerWidth;
-    setCanvasHeight(totalHeight * 0.93);
+    setCanvasHeight(totalHeight * 0.8);
     setCanvasWidth(totalWidth * 0.75);
   }, []);
 
@@ -181,8 +190,6 @@ const Canvas = (props) => {
           ? handleRectangleMouseMove
           : handleLineMouseMove
       }
-      // width={window.innerWidth-(0.15*window.innerWidth)}
-      // height={window.innerHeight-(0.05*window.innerHeight)}
       width={canvasWidth}
       height={canvasHeight}
     >
@@ -206,6 +213,7 @@ const Canvas = (props) => {
         })}
         {lineToDraw.map((line) => (
           <LineComponent
+            key={line.key}
             keyValue={line.key}
             points={line.points}
             stroke={line.stroke}
