@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Canvas from "./Canvas";
 import Form from "./Form";
 
@@ -11,14 +11,14 @@ const Modal = props => {
     return (
         <div className = "modal">
             <div className = "modal-form">
-                <Form query={props.query} setQuery = {props.setQuery} tool={props.tool} setTool={props.setTool} color={props.color} changeColor = {props.changeColor}/>
+                <Form query={props.query} setQuery = {props.setQuery} tool={props.tool} setTool={props.setTool} color={props.color} changeColor = {props.changeColor} fillColor={props.fillColor} changeFillColor={props.changeFillColor}/>
             </div>
             <div className = "modal-content canvas">
                 <div className = "modal-header">
                     <h4>Title</h4>
                 </div>
                 <div className = "modal-body">
-                    <Canvas tool={props.tool} color={props.color}/>
+                    <Canvas tool={props.tool} color={props.color} fillColor={props.fillColor}/>
                 </div>
                 <div className = "modal-footer">
                     <button onClick={props.closeModal}>Close</button>

@@ -24,7 +24,8 @@ const Form = props => {
             </select>
             <label>Stroke Color</label>
             <input type="color" value={props.color} onChange={props.changeColor}/>
-
+            <label>Fill Color</label>
+            <input type="color" value={props.fillColor} onChange={props.changeFillColor}/>
         </div>
     );
 }

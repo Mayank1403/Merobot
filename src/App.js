@@ -1,4 +1,4 @@
-import Canvas from "./Canvas";
+// import Canvas from "./Canvas";
 import {useState} from 'react'
 import NavBar from "./NavBar";
 import "./style.css"
@@ -17,6 +17,7 @@ export const RECTANGLE = "rectangle";
 function App() {
   const [tool, setTool] = useState(PENCIL);
   const [color, setColor] = useState("#000");
+  const [fillColor, setFillColor] = useState("#000");
   const [query, setQuery] = useState('');
 
   const [selection, setSelection] = useState(false);
@@ -46,11 +47,17 @@ function App() {
     console.log(color);
   }
 
+  const changeFillColor = (event) => {
+    console.log(fillColor);
+    setFillColor(event.target.value);
+    console.log(fillColor);
+  }
+
   return (
     <div className="App">
       <NavBar/>
       <div className = "container">
-        <Form query={query} setQuery = {setQuery} tool={tool} setTool={setTool} color={color} changeColor = {changeColor}/>
+        <Form query={query} setQuery = {setQuery} tool={tool} setTool={setTool} color={color} changeColor = {changeColor} fillColor={fillColor} changeFillColor={changeFillColor}/>
 
 
         <div className = "flex-child canvas">
@@ -58,7 +65,7 @@ function App() {
           {images.map(image =>{
             return <img src = {image.url} key = {image.id} alt = "" onClick = {e=>openCanvas(image.id)}/>
           })}
-          <Modal show = {selection} tool = {tool} color = {color} closeModal = {closeModal} query={query} setQuery = {setQuery} tool={tool} setTool={setTool} color={color} changeColor = {changeColor}/>
+          <Modal show = {selection} color = {color} closeModal = {closeModal} query={query} setQuery = {setQuery} tool={tool} setTool={setTool} changeColor = {changeColor} fillColor={fillColor} changeFillColor={changeFillColor}/>
           {/* {selection && <Canvas tool={tool} color={color}/>} */}
 
         </div>

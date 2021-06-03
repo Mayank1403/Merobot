@@ -23,7 +23,8 @@
 
 .sidebar{
     background: rgb(81, 185, 233);
-    height: 100vh;
+    padding: 10px;
+    height: 95vh;
     /* width: 100px; */
 }
 .canvas{
@@ -55,16 +56,17 @@
     border: 1px solid #ddd;
     font-size: 16px;
 }
-.sidebar button{
+.sidebar button, .modal-footer button{
     border: 0;
     padding: 10px;
     font-size: 18px;
     border-radius: 10px;
     background: #00A6FB;
     cursor: pointer;
-    margin-top: 8px;
+    display: block;
+    margin: 8px auto;
 }
-.sidebar button:hover{
+.sidebar button:hover, modal-footer button{
     border: 3px solid #333;
 }
 
@@ -94,4 +96,7 @@
     padding: 10px;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
+}
+.modal-form .sidebar{
+    height: 90vh;
 }

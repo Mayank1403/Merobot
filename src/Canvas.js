@@ -1,8 +1,8 @@
 import React, { useState , useEffect} from "react";
-import { Stage, Layer, Rect } from "react-konva";
+import { Stage, Layer} from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
-import { RECTANGLE, PENCIL } from "./App";
+import { RECTANGLE} from "./App";
 
 // const initialRectangles = [
 //   {
@@ -35,6 +35,7 @@ const Canvas = (props) => {
   const [canvasWidth, setCanvasWidth] = useState([]);
 
   const color = props.color;
+  const fillColor = props.fillColor;
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -112,6 +113,7 @@ const Canvas = (props) => {
           label: input_label,
           closed: close,
           stroke: color,
+          fill: fillColor,
           key: lines.length + 1,
         };
         lines.push(newToAdd);
@@ -157,6 +159,7 @@ const Canvas = (props) => {
           points: lastLine,
           closed: false,
           stroke: color,
+          fill: fillColor,
           key: "0",
         },
       ]);
@@ -188,8 +191,8 @@ const Canvas = (props) => {
           ? handleRectangleMouseMove
           : handleLineMouseMove
       }
-      width={canvasWidth}
-      height={canvasHeight}
+      width={window.innerWidth * 0.75}
+      height={window.innerHeight * 0.80}
     >
       <Layer>
         {annotationsToDraw.map((value, i) => {
@@ -215,8 +218,8 @@ const Canvas = (props) => {
             keyValue={line.key}
             points={line.points}
             stroke={line.stroke}
+            fill={line.fill}
             closed={line.closed}
-            fill="blue"
             strokeWidth= {3}
           />
         ))}
