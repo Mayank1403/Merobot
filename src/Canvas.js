@@ -2,7 +2,7 @@ import React, { useState , useEffect} from "react";
 import { Stage, Layer} from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
-import { RECTANGLE} from "./App";
+import { RECTANGLE } from "./MessageList";
 
 // const initialRectangles = [
 //   {
@@ -191,8 +191,8 @@ const Canvas = (props) => {
           ? handleRectangleMouseMove
           : handleLineMouseMove
       }
-      width={window.innerWidth * 0.75}
-      height={window.innerHeight * 0.80}
+      width={window.innerWidth * 0.5}
+      height={window.innerHeight * 0.75}
     >
       <Layer>
         {annotationsToDraw.map((value, i) => {
