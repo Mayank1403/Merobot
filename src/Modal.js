@@ -1,27 +1,31 @@
-import React, {useState} from "react";
-import Canvas from "./Canvas";
-import Form from "./Form";
+import Images from "./Images";
+import Canvas from './Canvas';
+import { useState } from "react";
+import Sidebar from "./Sidebar";
 
-const Modal = props => {
+const Modal = ({images, tool, closeModal}) => {
+    const [color, setColor] = useState("#000");
+    const [fillColor, setFillColor] = useState("#000");
 
-    if(!props.show){
-        return null;
+    const changeColor = (event) => {
+        setColor(event.target.value);
+    }
+
+    const changeFillColor = (event) => {
+        setFillColor(event.target.value);
     }
 
     return (
         <div className = "modal">
-            <div className = "modal-form">
-                <Form query={props.query} setQuery = {props.setQuery} tool={props.tool} setTool={props.setTool} color={props.color} changeColor = {props.changeColor}/>
+            <div className = "modal__images">
+                <Images images = {images}/>
             </div>
-            <div className = "modal-content canvas">
-                <div className = "modal-header">
-                    <h4>Title</h4>
+            <div className = "modal__content canvas">
+                <div className = "modal__body">
+                    <Canvas tool={tool} color={color} fillColor={fillColor}/>
                 </div>
-                <div className = "modal-body">
-                    <Canvas tool={props.tool} color={props.color}/>
-                </div>
-                <div className = "modal-footer">
-                    <button onClick={props.closeModal}>Close</button>
+                <div className = "modal__form">
+                    <Sidebar color={color} fillColor={fillColor} changeColor={changeColor} changeFillColor={changeFillColor} closeModal={closeModal}/>
                 </div>
             </div>
         </div>

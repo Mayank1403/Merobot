@@ -1,9 +1,9 @@
-const NavBar = () => {
+const Navbar = () => {
     return (
-        <div className="navbar">
-            <h1>MeroBot</h1>
+        <div className = "navbar">
+            <h1>MEROBOT</h1>
         </div>
     );
 }
  
-export default NavBar;
+export default Navbar;
