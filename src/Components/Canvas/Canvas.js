@@ -37,7 +37,7 @@ const Canvas = (props) => {
   const handleLineMouseDown = (event) => {
     //Run when we start drawing
     // drawing = true;
-
+    checkDeselect(event);
     if (newLine.length === 0) {
       const { x, y } = event.target.getStage().getPointerPosition();
       const points = [x, y];
@@ -81,7 +81,8 @@ const Canvas = (props) => {
       const dist = Math.sqrt(Math.pow(fx - x, 2) + Math.pow(fy - y, 2));
       let close = false;
       if (dist < 10) {
-        close = true;
+        if(newLine[0].points.length > 4)
+          close = true;
       }
 
       if (close) {
