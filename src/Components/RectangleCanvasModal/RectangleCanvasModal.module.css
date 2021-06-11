@@ -1,0 +1,55 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  z-index: 10;
+}
+
+.sideBar {
+  /* border: 1px red solid; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 480px;
+  margin: 5vh 0 0 2vw;
+  background-color: floralwhite;
+  width: 300px;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.imgContainer{
+    background-color: white;
+    margin: 5vh 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 180px;
+}
+
+.imgContainer img {
+  height: 70px;
+  width: 70px;
+  border: 2px black solid;
+  padding: 5px;
+  margin: 2px;
+}
+
+.Button {
+  padding: 15px 30px;
+  background-color: darkturquoise;
+  border-radius: 10px;
+  color: aliceblue;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 20px;
+  text-align: center;
+  /* border: 1px solid green; */
+}

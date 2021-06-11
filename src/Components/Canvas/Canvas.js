@@ -1,29 +1,10 @@
-import React, { useState , useEffect} from "react";
-import { Stage, Layer} from "react-konva";
+import React, { useState } from "react";
+import { Stage, Layer } from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
-import { RECTANGLE } from "./MessageList";
 
-// const initialRectangles = [
-//   {
-//     x: 10,
-//     y: 10,
-//     width: 100,
-//     height: 100,
-//     stroke: "red",
-//     strokeWidth: 3,
-//     id: "rect1",
-//   },
-//   {
-//     x: 150,
-//     y: 150,
-//     width: 100,
-//     height: 100,
-//     stroke: "green",
-//     strokeWidth: 3,
-//     id: "rect2",
-//   },
-// ];
+export const RECTANGLE = "rect";
+export const LINE = "line";
 
 const Canvas = (props) => {
   const [rectangles, setRectangles] = useState([]);
@@ -31,8 +12,6 @@ const Canvas = (props) => {
   const [selectedId, selectShape] = useState(null);
   const [lines, setLines] = useState([]);
   const [newLine, setNewLine] = useState([]);
-  const [canvasHeight, setCanvasHeight] = useState([]);
-  const [canvasWidth, setCanvasWidth] = useState([]);
 
   const color = props.color;
   const fillColor = props.fillColor;
@@ -169,13 +148,6 @@ const Canvas = (props) => {
     }
   };
 
-  useEffect(() => {
-    const totalHeight = window.innerHeight;
-    const totalWidth = window.innerWidth;
-    setCanvasHeight(totalHeight * 0.8);
-    setCanvasWidth(totalWidth * 0.75);
-  }, []);
-
   const annotationsToDraw = [...rectangles, ...newAnnotation];
   const lineToDraw = [...lines, ...newLine];
   return (
@@ -193,8 +165,8 @@ const Canvas = (props) => {
           ? handleRectangleMouseMove
           : handleLineMouseMove
       }
-      width={window.innerWidth * 0.5}
-      height={window.innerHeight * 0.75}
+      width={500}
+      height={500}
     >
       <Layer>
         {annotationsToDraw.map((value, i) => {
@@ -222,7 +194,7 @@ const Canvas = (props) => {
             stroke={line.stroke}
             fill={line.fill}
             closed={line.closed}
-            strokeWidth= {3}
+            strokeWidth={3}
           />
         ))}
       </Layer>

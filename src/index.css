@@ -1,128 +1,32 @@
-*{
+:root {
+  --gutter: 0 10%;
+  --nav-height: 10vh;
+}
+
+body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  box-sizing: border-box;
-  color: #333;
-  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.navbar{
-  border-bottom: 1px solid #333;
-}
-.navbar h1{
-  padding-left: 20px;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
-
-
-.message__form{
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 20px;
-  z-index: 1;
-  display: flex;
-  width: 80vw;
-  margin-left: 10%;
-  flex-direction: row;
-}
-.message__input{
-  flex: 1;
-}
-.message__button{
-  flex: 0;
+.konvajs-content canvas {
+  margin: 5vh auto !important;
+  border: 0px !important;
+  background: white !important;
+  display: block !important;
+  position: relative !important;
+  height: 500px !important;
+  width: 500px !important;
 }
 
-.messagelist{
-  width: fit-content;
-  margin-top: 20px;
+.konvajs-content{
+  margin: auto;
 }
-.messagelist h3{
-  width: 80vw;
-}
-.messagelist__user h3{
-  text-align: right;
-  width: 80vw;
-}
-.messagelist__user span{
-  padding: 8px;
-  border-radius: 15%;
-  background: #0081ff;
-}
-.messagelist__bot span{
-  padding: 8px;
-  border-radius: 15%;
-}
-.messagelist__bot img{
-  width: 15%;
-}
-
-.modal{
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 5.8%;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  justify-content: center;
-}
-
-.modal__images{
-  float: left;
-  background-color: #e9e9eb;
-  width: 20%;
-  height: 79.7%;
-  margin-left: 5%;
-  margin-top: 5%;
-}
-.modal__body{
-  float: left;
-  background: #fff;
-  width: 50%;
-  height: 75%;
-  margin-top: 5%;
-}
-.modal__form{
-  float: right;
-  background-color: #e9e9eb;
-  width: 20%;
-  height: 79.7%;
-  margin-right: 5%;
-  margin-top: 5%;
-}
-.modal__form label, .modal__form input{
-  margin-top: 5%;
-  margin-left: 5%;
-  display: block;
-}
-.modal__form input{
-  margin-right: 5%;
-  width: 90%;
-}
-.modal__form button{
-  display: block;
-  position: fixed;
-  bottom: 15%; 
-  margin: 0 auto;
-}
-/* .modal__body{
-  flex: 1;
-  background-color: #fff;
-  width: auto;
-}
-.modal__images .images{
-  flex: 0;
-  background-color: #fff;
-  height: 80vh;
-  width: auto;
-}
-.modal__images .images__image{
-  display: block;
-  border: 1px solid #333;
-}
-.modal__form{
-  flex: 0;
-}
-.canvas{
-  width: 100%;
-} */
