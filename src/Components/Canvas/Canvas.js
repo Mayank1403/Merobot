@@ -10,6 +10,7 @@ const Canvas = (props) => {
   const [rectangles, setRectangles] = useState([]);
   const [newAnnotation, setNewAnnotation] = useState([]);
   const [selectedId, selectShape] = useState(null);
+  const [selectedLineId, selectLineShape] = useState(null);
   const [lines, setLines] = useState([]);
   const [newLine, setNewLine] = useState([]);
 
@@ -186,8 +187,11 @@ const Canvas = (props) => {
             />
           );
         })}
-        {lineToDraw.map((line) => (
+        {lineToDraw.map((line,i) => (
           <LineComponent
+            onSelect={() => {
+              selectLineShape(line.key);
+            }}
             key={line.key}
             keyValue={line.key}
             points={line.points}
@@ -195,6 +199,12 @@ const Canvas = (props) => {
             fill={line.fill}
             closed={line.closed}
             strokeWidth={3}
+            isSelected={line.key === selectedLineId}
+            onChange={(newAttrs) => {
+              const line = rectangles.slice();
+              line[i] = newAttrs;
+              setLines(line);
+            }}
           />
         ))}
       </Layer>
