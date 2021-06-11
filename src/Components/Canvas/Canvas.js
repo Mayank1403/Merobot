@@ -24,6 +24,14 @@ const Canvas = (props) => {
     }
   };
 
+  const checkDeselectLine = (e) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      selectLineShape(null);
+    }
+  };
+
   const handleRectangleMouseDown = (event) => {
     checkDeselect(event);
     if (selectedId === null) {
@@ -37,13 +45,15 @@ const Canvas = (props) => {
   const handleLineMouseDown = (event) => {
     //Run when we start drawing
     // drawing = true;
-    checkDeselect(event);
-    if (newLine.length === 0) {
-      const { x, y } = event.target.getStage().getPointerPosition();
-      const points = [x, y];
-      setNewLine([
-        { points, closed: false, key: "0", stroke: color, strokeWidth: 5 },
-      ]);
+    checkDeselectLine(event);
+    if(selectedLineId === null){
+      if (newLine.length === 0) {
+        const { x, y } = event.target.getStage().getPointerPosition();
+        const points = [x, y];
+        setNewLine([
+          { points, closed: false, key: "0", stroke: color, strokeWidth: 5 },
+        ]);
+      }
     }
   };
 
