@@ -26,6 +26,7 @@ const LineComponent = (props) => {
         onClick={props.onSelect}
         onTap={props.onSelect}
         ref={shapeRef}
+        onDragStart = {e=>props.onDragStart(e, props.keyValue)}
       />
       {props.isSelected && (
         <Transformer

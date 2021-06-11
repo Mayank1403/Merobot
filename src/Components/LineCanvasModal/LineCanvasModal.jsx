@@ -7,15 +7,26 @@ import img2 from "../../Assets/second.png";
 export default function RectangleCanvasModal(props) {
   const [color, setColor] = useState("#000000");
   const [fillColor, setFillColor] = useState("#FeB142");
+  //delete
+  const [selection, setSelection] = useState('pencil');
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
         <img src={img1} alt="img" />
         <img src={img2} alt="img" />
       </div>
-      <Canvas tool={LINE} color={color} fillColor={fillColor}/>
+      <Canvas tool={LINE} selection={selection} color={color} fillColor={fillColor}/>
       <div className={styles.sideBar}>
         <div>
+          <div className={styles.input}>
+            <select
+              value = {selection}
+              onChange = {e=>setSelection(e.target.value)}
+            >
+              <option value = "pencil">Pencil</option>
+              <option value = "eraser">Eraser</option>
+            </select>
+          </div>
           <div className={styles.input}>
             <input
               type="color"

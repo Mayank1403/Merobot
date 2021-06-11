@@ -32,9 +32,18 @@ const Canvas = (props) => {
     }
   };
 
+  const handleDragStart = (event, key) => {
+    const items = lines.slice();
+    const item = lines.find(i => i.key === key);
+    const index = items.indexOf(item);
+    items.splice(index, 1);
+    items.push(item);
+    setLines(items); 
+  }
+
   const handleRectangleMouseDown = (event) => {
     checkDeselect(event);
-    if (selectedId === null) {
+    if (selectedId === null && props.selection==="rectangle") {
       if (newAnnotation.length === 0) {
         const { x, y } = event.target.getStage().getPointerPosition();
         setNewAnnotation([{ x, y, width: 0, height: 0, key: "0" }]);
@@ -46,7 +55,7 @@ const Canvas = (props) => {
     //Run when we start drawing
     // drawing = true;
     checkDeselectLine(event);
-    if(selectedLineId === null){
+    if(selectedLineId === null && props.selection==="pencil"){
       if (newLine.length === 0) {
         const { x, y } = event.target.getStage().getPointerPosition();
         const points = [x, y];
@@ -189,6 +198,14 @@ const Canvas = (props) => {
               isSelected={value.key === selectedId}
               onSelect={() => {
                 selectShape(value.key);
+                if(props.selection==="eraser"){
+                  const items = rectangles.slice();
+                  const item = rectangles.find(i => i.key === value.key);
+                  const index = items.indexOf(item);
+                  items.splice(index, 1);
+                  setRectangles(items);
+                  return;
+                }
               }}
               onChange={(newAttrs) => {
                 const rects = rectangles.slice();
@@ -202,6 +219,14 @@ const Canvas = (props) => {
           <LineComponent
             onSelect={() => {
               selectLineShape(line.key);
+              if(props.selection==="eraser"){
+                const items = lines.slice();
+                const item = lines.find(i => i.key === line.key);
+                const index = items.indexOf(item);
+                items.splice(index, 1);
+                setLines(items);
+                return;
+              }
             }}
             key={line.key}
             keyValue={line.key}
@@ -210,6 +235,7 @@ const Canvas = (props) => {
             fill={line.fill}
             closed={line.closed}
             strokeWidth={3}
+            onDragStart = {handleDragStart}
             isSelected={line.key === selectedLineId}
             onChange={(newAttrs) => {
               const line = rectangles.slice();
