@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stage, Layer } from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
@@ -7,6 +7,44 @@ export const RECTANGLE = "rect";
 export const LINE = "line";
 
 const Canvas = (props) => {
+  const trial = [
+    {
+      height: 97,
+      key: 1,
+      stroke: "#b82828",
+      strokeWidth: 5,
+      width: 166,
+      x: 158.046875,
+      y: 145.453125
+    },
+    {
+      height: 71,
+      key: 2,
+      stroke: "#a728b8",
+      strokeWidth: 5,
+      width: 65,
+      x: 314.046875,
+      y: 185.453125
+    },
+    {
+      height: 19,
+      key: 3,
+      stroke: "#4828b8",
+      strokeWidth: 5,
+      width: 62,
+      x: 107.046875,
+      y: 203.453125
+    },
+    {
+      height: 77,
+      key: 4,
+      stroke: "#28b867",
+      strokeWidth: 5,
+      width: 26,
+      x: 178.046875,
+      y: 234.453125
+    }
+  ]
   const [rectangles, setRectangles] = useState([]);
   const [newAnnotation, setNewAnnotation] = useState([]);
   const [selectedId, selectShape] = useState(null);
@@ -23,7 +61,11 @@ const Canvas = (props) => {
       selectShape(null);
     }
   };
-
+  const rect = props.tool === RECTANGLE;
+  useEffect(() => {
+    if(rect)
+      setRectangles(trial);
+  }, []);
   const checkDeselectLine = (e) => {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -115,7 +157,7 @@ const Canvas = (props) => {
           points: newLine[0].points,
           label: input_label,
           closed: close,
-          stroke: color,
+          stroke: fillColor,
           fill: fillColor,
           key: lines.length + 1,
         };

@@ -31,3 +31,11 @@
   cursor: pointer;
   /* border: 1px solid green; */
 }
+/* 
+.suggestion{
+  display: block;
+  position: absolute;
+  bottom: 18vh;
+  width: 80%;
+  text-align: center;
+} */
