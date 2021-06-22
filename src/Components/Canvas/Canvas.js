@@ -7,44 +7,7 @@ export const RECTANGLE = "rect";
 export const LINE = "line";
 
 const Canvas = (props) => {
-  const trial = [
-    {
-      height: 97,
-      key: 1,
-      stroke: "#b82828",
-      strokeWidth: 5,
-      width: 166,
-      x: 158.046875,
-      y: 145.453125
-    },
-    {
-      height: 71,
-      key: 2,
-      stroke: "#a728b8",
-      strokeWidth: 5,
-      width: 65,
-      x: 314.046875,
-      y: 185.453125
-    },
-    {
-      height: 19,
-      key: 3,
-      stroke: "#4828b8",
-      strokeWidth: 5,
-      width: 62,
-      x: 107.046875,
-      y: 203.453125
-    },
-    {
-      height: 77,
-      key: 4,
-      stroke: "#28b867",
-      strokeWidth: 5,
-      width: 26,
-      x: 178.046875,
-      y: 234.453125
-    }
-  ]
+  
   const [rectangles, setRectangles] = useState([]);
   const [newAnnotation, setNewAnnotation] = useState([]);
   const [selectedId, selectShape] = useState(null);
@@ -63,8 +26,12 @@ const Canvas = (props) => {
   };
   const rect = props.tool === RECTANGLE;
   useEffect(() => {
-    if(rect)
-      setRectangles(trial);
+    if(rect){
+      fetch('/api').then(response => {
+        if(response.ok)
+          return response.json()
+      }).then(data=>setRectangles(data['lists']))
+    }
   }, []);
   const checkDeselectLine = (e) => {
     // deselect when clicked on empty area
