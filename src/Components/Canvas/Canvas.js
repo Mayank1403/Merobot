@@ -25,9 +25,10 @@ const Canvas = (props) => {
     }
   };
   const rect = props.tool === RECTANGLE;
+
   useEffect(() => {
     if(rect){
-      fetch('/api').then(response => {
+      fetch('/add').then(response => {
         if(response.ok)
           return response.json()
       }).then(data=>setRectangles(data['lists']))

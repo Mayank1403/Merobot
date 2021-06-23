@@ -1,0 +1,4 @@
+1. Once a user pushes a text of which object to be drawn we do a GET request
+    API Call= '/images/object_name' 
+    here object_name is the object to be drawn
+    this will return with the address of the 3 images

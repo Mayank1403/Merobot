@@ -2,8 +2,21 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route('/api', methods=['GET'])
-def index():
+
+@app.route('/images/<string:object>', methods=['GET'])
+def send_images(object):
+    if(object.lower()=='cow'):
+        return{
+            'images': [
+                '/Users/amritesh/Downloads/Coding/react/Merobot/src/Assets/first.png',
+                '/Users/amritesh/Downloads/Coding/react/Merobot/src/Assets/second.png',
+                '/Users/amritesh/Downloads/Coding/react/Merobot/src/Assets/third.png'
+            ]
+        }
+
+
+@app.route('/add', methods=['GET'])
+def add_coords():
     return{'lists':[
     {
         'height': 97,
