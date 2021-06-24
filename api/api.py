@@ -1,16 +1,20 @@
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/images/<string:object>', methods=['GET'])
 def send_images(object):
     if(object.lower()=='cow'):
         return{
             'images': [
-                '/Users/amritesh/Downloads/Coding/react/Merobot/src/Assets/first.png',
-                '/Users/amritesh/Downloads/Coding/react/Merobot/src/Assets/second.png',
-                '/Users/amritesh/Downloads/Coding/react/Merobot/src/Assets/third.png'
+                {"src" : "F:\\Ravi-Kiran\\konva\\try\\src\\Assets\\first.png",
+                "model": ''},
+                {"src" : '../../Assets/second.png',
+                "model": 'rect'},
+                {"src" : '../../Assets/third.png',
+                "model": 'line'}
             ]
         }
 

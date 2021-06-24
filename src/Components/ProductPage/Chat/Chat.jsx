@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Chat.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat, BOT, STEP, USER } from "../../../Redux/Ducks/Chat";
+import { addUserChat, BOT, STEP, USER } from "../../../Redux/Ducks/Chat";
 import RectangleCanvasModal from "../../RectangleCanvasModal/RectangleCanvasModal";
 import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
 
@@ -13,7 +13,7 @@ export default function Chat() {
   const [model, setModel] = useState("");
 
   const handleModalClose = () => {
-    dispatch(addChat(STEP, "Changes"));
+    dispatch(addUserChat(STEP, "Changes"));
     setModel("");
   };
 
@@ -30,7 +30,7 @@ export default function Chat() {
             <div className={styles.leftText}>
               {info.hasImage ? (
                 <div className={styles.imageDiv}>
-                  {info.image.map((data, idx) => (
+                  {info.images.map((data, idx) => (
                     <img
                       src={data.src}
                       alt="produced images"

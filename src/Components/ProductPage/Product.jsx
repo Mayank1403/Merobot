@@ -2,20 +2,28 @@ import React, { useState } from "react";
 import styles from "./Product.module.css";
 import { TextField } from "@material-ui/core";
 
-import {Autocomplete} from "@material-ui/lab";
-import { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { Autocomplete } from "@material-ui/lab";
+import { createFilterOptions } from "@material-ui/lab/Autocomplete";
 
 import Chat from "./Chat/Chat";
 import { useDispatch } from "react-redux";
-import { USER, addChat } from "../../Redux/Ducks/Chat";
+import { USER, addUserChat, BOT, addBotChat } from "../../Redux/Ducks/Chat";
+
+import axios from "axios";
 
 export default function Product() {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
 
-
   //delete this later on
-  const body_parts = ["add left-horn", "add right-horn", "add tail", "add left-leg", "add right-leg"];
+  const body_parts = [
+    "add left-horn",
+    "add right-horn",
+    "add tail",
+    "add left-leg",
+    "add right-leg",
+  ];
+  const [object, setObject] = useState("");
   const [show, setShow] = useState(false);
   const [matched, setMatched] = useState([]);
   // const manageSuggestion = (text)=>{
@@ -47,17 +55,31 @@ export default function Product() {
   //remove till here
 
   const handleClick = () => {
-    dispatch(addChat(USER, text));
+    dispatch(addUserChat(USER, text));
     setText("");
     setMatched("");
     setShow(false);
   };
 
-  const filterOptions = createFilterOptions({
-    matchFrom: 'any',
+  const handleApiCall = () => {
+    console.log(object);
+    axios
+      .get(`http://127.0.0.1:5000/images/${text}`)
+      .then((res) => {
+        console.log(res);
+        const data = {
+          sender: BOT,
+          hasImage: true,
+          images: res.data.images,
+        };
+        dispatch(addBotChat(data));
+      })
+      .catch((err) => console.log(err));
+  };
 
+  const filterOptions = createFilterOptions({
+    matchFrom: "any",
   });
-  
 
   return (
     <div className={styles.Container}>
@@ -65,45 +87,52 @@ export default function Product() {
         <Chat />
       </div>
       <div className={styles.inputContainer}>
-        {/* <div className={styles.suggestion}>
-          {show && 
-            <div className="showOptions">
-              {matched.map((body_part, index)=>(
-                <div key={index}>{body_part}</div>
-              ))}
-            </div>
-          }
-        </div> */}
         <div className={styles.inputField}>
-          {/* <TextField
-            id="outlined-basic"
-            label="Enter Text"
-            variant="outlined"
-            fullWidth
-            onChange={(e) => manageSuggestion(e.target.value)}
-            value={text}
-          /> */}
-          <Autocomplete
-            // defaultValue={text}
-            id="combo-box-demo"
-            options={body_parts}
-            getOptionLabel={(option) => option}
-            filterOptions={filterOptions}
-            // style={{ width: 300 }}
-            autoHighlight
-            freeSolo
-            clearOnEscape
-            onChange={(e, value) => setText(value)}
-            renderInput={(params) => <TextField 
-              {...params} 
-              label="Enter Text" 
-              id="outlined-basic" 
-              fullWidth 
+          {object === "" ? (
+            <TextField
+              id="outlined-basic"
+              label="Enter Text"
               variant="outlined"
-            />}
-          />
+              fullWidth
+              onChange={(e) => setText(e.target.value)}
+              value={text}
+            />
+          ) : (
+            <Autocomplete
+              // defaultValue={text}
+              id="combo-box-demo"
+              options={body_parts}
+              getOptionLabel={(option) => option}
+              filterOptions={filterOptions}
+              // style={{ width: 300 }}
+              autoHighlight
+              freeSolo
+              clearOnEscape
+              onChange={(e, value) => setText(value)}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Enter Text"
+                  id="outlined-basic"
+                  fullWidth
+                  variant="outlined"
+                />
+              )}
+            />
+          )}
         </div>
-        <div className={styles.sendButton} onClick={handleClick}>
+        <div
+          className={styles.sendButton}
+          onClick={
+            object === ""
+              ? (e) => {
+                  handleClick()
+                  setObject(text);
+                  handleApiCall();
+                }
+              : handleClick
+          }
+        >
           Send
         </div>
       </div>
@@ -117,7 +146,7 @@ export default function Product() {
 //         <Chat />
 //       </div>
 //       <div className={styles.inputContainer}>
-//         {show && 
+//         {show &&
 //           <div className="showOptions">
 //             {body_parts.map((body_part, index)=>(
 //               <div key={index}>{body_part}</div>
