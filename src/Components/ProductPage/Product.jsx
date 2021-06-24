@@ -3,7 +3,7 @@ import styles from "./Product.module.css";
 import { TextField } from "@material-ui/core";
 
 import { Autocomplete } from "@material-ui/lab";
-import { createFilterOptions } from "@material-ui/lab/Autocomplete";
+// import { createFilterOptions } from "@material-ui/lab/Autocomplete";
 
 import Chat from "./Chat/Chat";
 import { useDispatch } from "react-redux";
@@ -11,55 +11,23 @@ import { USER, addUserChat, BOT, addBotChat } from "../../Redux/Ducks/Chat";
 
 import axios from "axios";
 
+
+
 export default function Product() {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
 
   //delete this later on
-  const body_parts = [
-    "add left-horn",
-    "add right-horn",
-    "add tail",
-    "add left-leg",
-    "add right-leg",
-  ];
+  // const body_parts = [
+  //   "add left-horn",
+  //   "add right-horn",
+  //   "add tail",
+  //   "add left-leg",
+  //   "add right-leg",
+  // ];
+  const [bodyParts, setBodyParts] = useState([]);
   const [object, setObject] = useState("");
-  const [show, setShow] = useState(false);
-  const [matched, setMatched] = useState([]);
-  // const manageSuggestion = (text)=>{
-  //   if(!text.toLowerCase().includes("add")){
-  //     setText(text);
-  //     return;
-  //   }
-  //   const copy = text;
-  //   text = text.replace('add ', '');
-  //   let match = body_parts.filter((part)=>{
-  //     const regex = new RegExp(`${text}`, "gi");
-  //     return part.match(regex);
-  //   });
-  //   console.log(copy==="add");
-  //   if(match.length===0 && copy.toLowerCase()!=="add"){
-  //     alert("Chose from : "+body_parts);
-  //     setText("add ");
-  //     setShow(false);
-  //     return;
-  //   }
-  //   if(copy.toLowerCase()==="add"){
-  //     setText(copy);
-  //     return;
-  //   }
-  //   setText('add '+text);
-  //   setMatched(match);
-  //   setShow(true);
-  // }
-  //remove till here
-
-  const handleClick = () => {
-    dispatch(addUserChat(USER, text));
-    setText("");
-    setMatched("");
-    setShow(false);
-  };
+  const [process, setProcess] = useState(false);
 
   const handleApiCall = () => {
     console.log(object);
@@ -77,9 +45,28 @@ export default function Product() {
       .catch((err) => console.log(err));
   };
 
-  const filterOptions = createFilterOptions({
-    matchFrom: "any",
-  });
+  const handleClick = () => {
+    dispatch(addUserChat(USER, text));
+    if(process===true){
+      //do the first api call here
+      axios
+        .get(`http://127.0.0.1:5000/open/${text}`)
+        .then((res) => {
+          console.log(res);
+          setBodyParts(res.data.parts);
+        });
+      setProcess(false);
+    }
+    else{
+      setProcess(true);
+    }
+    setText("");
+  };
+
+
+  // const filterOptions = createFilterOptions({
+  //   matchFrom: "any",
+  // });
 
   return (
     <div className={styles.Container}>
@@ -88,7 +75,7 @@ export default function Product() {
       </div>
       <div className={styles.inputContainer}>
         <div className={styles.inputField}>
-          {object === "" ? (
+          {(object === "" || process) ? (
             <TextField
               id="outlined-basic"
               label="Enter Text"
@@ -101,9 +88,9 @@ export default function Product() {
             <Autocomplete
               // defaultValue={text}
               id="combo-box-demo"
-              options={body_parts}
+              options={bodyParts}
               getOptionLabel={(option) => option}
-              filterOptions={filterOptions}
+              // filterOptions={filterOptions}
               // style={{ width: 300 }}
               autoHighlight
               freeSolo
@@ -128,6 +115,7 @@ export default function Product() {
               ? (e) => {
                   handleClick()
                   setObject(text);
+                  setProcess(true);
                   handleApiCall();
                 }
               : handleClick
@@ -139,34 +127,3 @@ export default function Product() {
     </div>
   );
 }
-
-//   return (
-//     <div className={styles.Container}>
-//       <div className={styles.chatScreen}>
-//         <Chat />
-//       </div>
-//       <div className={styles.inputContainer}>
-//         {show &&
-//           <div className="showOptions">
-//             {body_parts.map((body_part, index)=>(
-//               <div key={index}>{body_part}</div>
-//             ))}
-//           </div>
-//         }
-//         <div className={styles.inputField}>
-//           <TextField
-//             id="outlined-basic"
-//             label="Enter Text"
-//             variant="outlined"
-//             fullWidth
-//             onChange={(e) => setText(e.target.value)}
-//             value={text}
-//           />
-//         </div>
-//         <div className={styles.sendButton} onClick={handleClick}>
-//           Send
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

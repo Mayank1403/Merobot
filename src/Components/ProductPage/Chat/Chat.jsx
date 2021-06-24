@@ -5,7 +5,11 @@ import { addUserChat, BOT, STEP, USER } from "../../../Redux/Ducks/Chat";
 import RectangleCanvasModal from "../../RectangleCanvasModal/RectangleCanvasModal";
 import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
 
+
+
 export default function Chat() {
+
+
   const Data = useSelector((state) => state.Chat);
   const chatRef = useRef(null);
   const dispatch = useDispatch();

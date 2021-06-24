@@ -53,3 +53,20 @@
   text-align: center;
   /* border: 1px solid green; */
 }
+
+:root {
+  --main-color: lightslategray;
+}
+
+.Table, th, td{
+  border: 1px solid black;
+}
+.Table{
+  margin: 10px;
+  margin-left: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+/* .Td{
+  background-color: var(--main-color);
+} */

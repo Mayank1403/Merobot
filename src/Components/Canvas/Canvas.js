@@ -3,17 +3,23 @@ import { Stage, Layer } from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addRectangles } from "../../Redux/Ducks/Rectangles";
+
 export const RECTANGLE = "rect";
 export const LINE = "line";
 
 const Canvas = (props) => {
   
-  const [rectangles, setRectangles] = useState([]);
+  const rectangles = useSelector((state) => state.Rectangles.rect);
+  // const [rectangles, setRectangles] = useState([]);
   const [newAnnotation, setNewAnnotation] = useState([]);
   const [selectedId, selectShape] = useState(null);
   const [selectedLineId, selectLineShape] = useState(null);
   const [lines, setLines] = useState([]);
   const [newLine, setNewLine] = useState([]);
+  const dispatch = useDispatch();
 
   const color = props.color;
   const fillColor = props.fillColor;
@@ -26,12 +32,13 @@ const Canvas = (props) => {
   };
   const rect = props.tool === RECTANGLE;
 
+
   useEffect(() => {
     if(rect){
       fetch('/add').then(response => {
         if(response.ok)
           return response.json()
-      }).then(data=>setRectangles(data['lists']))
+      }).then(data=>dispatch(addRectangles(data['lists'])))
     }
   }, []);
   const checkDeselectLine = (e) => {
@@ -82,6 +89,19 @@ const Canvas = (props) => {
         const sx = newAnnotation[0].x;
         const sy = newAnnotation[0].y;
         const { x, y } = event.target.getStage().getPointerPosition();
+        
+        let w = x-sx;
+        let h = y - sy;
+        let close = false;
+        let input_label = "";
+        if (w !== 0 && h !== 0){
+          close = true
+          input_label = prompt(
+            "Please enter a label for the component",
+            "label"
+          );
+        }
+
         const annotationToAdd = {
           x: sx,
           y: sy,
@@ -90,11 +110,15 @@ const Canvas = (props) => {
           key: rectangles.length + 1,
           stroke: color,
           strokeWidth: 5,
+          label: input_label,
         };
-        if (annotationToAdd.width !== 0 && annotationToAdd.height !== 0)
-          rectangles.push(annotationToAdd);
+        const items = rectangles.slice();
+        if (close)
+          items.push(annotationToAdd);
         setNewAnnotation([]);
-        setRectangles(rectangles);
+        // setRectangles(rectangles);
+        dispatch(addRectangles(items));
+        console.log(rectangles);
       }
     }
   };
@@ -213,14 +237,16 @@ const Canvas = (props) => {
                   const item = rectangles.find(i => i.key === value.key);
                   const index = items.indexOf(item);
                   items.splice(index, 1);
-                  setRectangles(items);
+                  // setRectangles(items);
+                  dispatch(addRectangles(items));
                   return;
                 }
               }}
               onChange={(newAttrs) => {
                 const rects = rectangles.slice();
                 rects[i] = newAttrs;
-                setRectangles(rects);
+                dispatch(addRectangles(rects));
+                // setRectangles(rects);
               }}
             />
           );
