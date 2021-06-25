@@ -57,3 +57,13 @@
 .input {
   margin: 10px;
 }
+
+.Table, th, td{
+  border: 1px solid black;
+}
+.Table{
+  margin: 10px;
+  margin-left: 0;
+  width: 100%;
+  border-collapse: collapse;
+}

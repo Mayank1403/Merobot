@@ -4,8 +4,12 @@ import Canvas, { RECTANGLE, LINE } from "../Canvas/Canvas.js";
 import img1 from "../../Assets/first.png";
 import img2 from "../../Assets/second.png";
 
+import { useSelector } from "react-redux";
+
 export default function RectangleCanvasModal(props) {
-  const [color, setColor] = useState("#000000");
+  const lines = useSelector((state) => state.Lines.line);
+  // const [color, setColor] = useState("#000000");
+  const color = "#000000";
   const [fillColor, setFillColor] = useState("#FeB142");
   //delete
   const [selection, setSelection] = useState('pencil');
@@ -27,7 +31,7 @@ export default function RectangleCanvasModal(props) {
               <option value = "eraser">Eraser</option>
             </select>
           </div>
-          <div className={styles.input}>
+          {/* <div className={styles.input}>
             <input
               type="color"
               value={color}
@@ -36,7 +40,7 @@ export default function RectangleCanvasModal(props) {
             />
             <label for="strokePicker"> Stroke Colour</label>
 
-          </div>
+          </div> */}
           <div className={styles.input}>
             <input
               type="color"
@@ -44,8 +48,20 @@ export default function RectangleCanvasModal(props) {
               id="fillPicker"
               onChange={(e) => setFillColor(e.target.value)}
             />
-            <label for="fillPicker"> Fill Colour</label>
+            <label for="fillPicker">Colour</label>
           </div>
+          <table className={styles.Table}>
+            <tr>
+              <th>Part</th>
+              <th>Color</th>
+            </tr>
+            {lines.map((line, index)=>(
+              <tr key={index}>
+                <td>{line.label}</td>
+                <td className={styles.Td} style={{backgroundColor: line.stroke}}></td>
+              </tr>
+            ))}
+          </table>
           <div className={styles.Button} onClick={props.isDone}>
             Done
           </div>

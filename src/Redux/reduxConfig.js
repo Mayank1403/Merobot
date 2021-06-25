@@ -1,10 +1,12 @@
 import { createStore, combineReducers } from "redux";
 import Chat from "./Ducks/Chat";
 import Rectangles from "./Ducks/Rectangles";
+import Lines from "./Ducks/Lines";
 
 const allReducers = combineReducers({
   Chat,
   Rectangles,
+  Lines,
 });
 
 const store = createStore(

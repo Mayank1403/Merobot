@@ -6,33 +6,32 @@ import LineComponent from "./Line";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setRectangles } from "../../Redux/Ducks/Rectangles";
+import { setLines } from "../../Redux/Ducks/Lines";
 
 export const RECTANGLE = "rect";
 export const LINE = "line";
 
 const Canvas = (props) => {
   
-  const rectangles = useSelector((state) => state.Rectangles.rect);
-  // const [rectangles, setRectangles] = useState([]);
-  const [newAnnotation, setNewAnnotation] = useState([]);
-  const [selectedId, selectShape] = useState(null);
-  const [selectedLineId, selectLineShape] = useState(null);
-  const [lines, setLines] = useState([]);
-  const [newLine, setNewLine] = useState([]);
   const dispatch = useDispatch();
 
+  // const [rectangles, setRectangles] = useState([]);
+  //Rectangle variables
+  const rectangles = useSelector((state) => state.Rectangles.rect); //main array of objects
+  const [newAnnotation, setNewAnnotation] = useState([]); //temporary array of object
+  const [selectedId, selectShape] = useState(null);
+
+  // const [lines, setLines] = useState([]);
+  //Line variables
+  const lines = useSelector((state) => state.Lines.line); //main array of objects
+  const [newLine, setNewLine] = useState([]); //temporary array of object
+  const [selectedLineId, selectLineShape] = useState(null);
+
+  //Basic Variables
   const color = props.color;
   const fillColor = props.fillColor;
-  const checkDeselect = (e) => {
-    // deselect when clicked on empty area
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      selectShape(null);
-    }
-  };
+  
   const rect = props.tool === RECTANGLE;
-
-
   useEffect(() => {
     if(rect){
       fetch('/add').then(response => {
@@ -41,25 +40,19 @@ const Canvas = (props) => {
       }).then(data=>dispatch(setRectangles(data['lists'])))
     }
   }, []);
-  const checkDeselectLine = (e) => {
+
+
+  //Rectangle Helper Functions--------------------------------------------
+  const checkDeselectRect = (e) => {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      selectLineShape(null);
+      selectShape(null);
     }
   };
 
-  const handleDragStart = (event, key) => {
-    const items = lines.slice();
-    const item = lines.find(i => i.key === key);
-    const index = items.indexOf(item);
-    items.splice(index, 1);
-    items.push(item);
-    setLines(items); 
-  }
-
   const handleRectangleMouseDown = (event) => {
-    checkDeselect(event);
+    checkDeselectRect(event);
     if (selectedId === null && props.selection==="rectangle") {
       if (newAnnotation.length === 0) {
         const { x, y } = event.target.getStage().getPointerPosition();
@@ -68,16 +61,22 @@ const Canvas = (props) => {
     }
   };
 
-  const handleLineMouseDown = (event) => {
-    //Run when we start drawing
-    // drawing = true;
-    checkDeselectLine(event);
-    if(selectedLineId === null && props.selection==="pencil"){
-      if (newLine.length === 0) {
+  const handleRectangleMouseMove = (event) => {
+    if (selectedId === null) {
+      if (newAnnotation.length === 1) {
+        const sx = newAnnotation[0].x;
+        const sy = newAnnotation[0].y;
         const { x, y } = event.target.getStage().getPointerPosition();
-        const points = [x, y];
-        setNewLine([
-          { points, closed: false, key: "0", stroke: color, strokeWidth: 5 },
+        setNewAnnotation([
+          {
+            x: sx,
+            y: sy,
+            width: x - sx,
+            height: y - sy,
+            key: "0",
+            stroke: color,
+            strokeWidth: 5,
+          },
         ]);
       }
     }
@@ -121,61 +120,37 @@ const Canvas = (props) => {
       }
     }
   };
+  //---------------------------------------------------------------
 
-  const handleLineMouseUp = (event) => {
-    // drawing = false;
 
-    if (newLine.length === 1) {
-      const fx = newLine[0].points[0];
-      const fy = newLine[0].points[1];
-      const { x, y } = event.target.getStage().getPointerPosition();
-
-      const dist = Math.sqrt(Math.pow(fx - x, 2) + Math.pow(fy - y, 2));
-      let close = false;
-      if (dist < 10) {
-        if(newLine[0].points.length > 4)
-          close = true;
-      }
-
-      if (close) {
-        let input_label = prompt(
-          "Please enter a label for the component",
-          "label"
-        );
-        newLine[0].points.push(x);
-        newLine[0].points.push(y);
-        const newToAdd = {
-          points: newLine[0].points,
-          label: input_label,
-          closed: close,
-          stroke: fillColor,
-          fill: fillColor,
-          key: lines.length + 1,
-        };
-        lines.push(newToAdd);
-      }
-
-      setNewLine([]);
-      setLines(lines);
+  //Line Helper Functions--------------------------------------------
+  const checkDeselectLine = (e) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      selectLineShape(null);
     }
   };
 
-  const handleRectangleMouseMove = (event) => {
-    if (selectedId === null) {
-      if (newAnnotation.length === 1) {
-        const sx = newAnnotation[0].x;
-        const sy = newAnnotation[0].y;
+  const handleDragStart = (event, key) => {
+    const items = lines.slice();
+    const item = lines.find(i => i.key === key);
+    const index = items.indexOf(item);
+    items.splice(index, 1);
+    items.push(item);
+    dispatch(setLines(items)); 
+  };
+
+  const handleLineMouseDown = (event) => {
+    //Run when we start drawing
+    // drawing = true;
+    checkDeselectLine(event);
+    if(selectedLineId === null && props.selection==="pencil"){
+      if (newLine.length === 0) {
         const { x, y } = event.target.getStage().getPointerPosition();
-        setNewAnnotation([
-          {
-            x: sx,
-            y: sy,
-            width: x - sx,
-            height: y - sy,
-            key: "0",
-            stroke: color,
-            strokeWidth: 5,
-          },
+        const points = [x, y];
+        setNewLine([
+          { points, closed: false, key: "0", stroke: color, strokeWidth: 5 },
         ]);
       }
     }
@@ -201,6 +176,47 @@ const Canvas = (props) => {
       ]);
     }
   };
+
+  const handleLineMouseUp = (event) => {
+    // drawing = false;
+
+    if (newLine.length === 1) {
+      const fx = newLine[0].points[0];
+      const fy = newLine[0].points[1];
+      const { x, y } = event.target.getStage().getPointerPosition();
+      const dist = Math.sqrt(Math.pow(fx - x, 2) + Math.pow(fy - y, 2));
+      let close = false;
+      if (dist < 10) {
+        if(newLine[0].points.length > 4)
+          close = true;
+      }
+      const items = lines.slice();
+      if (close) {
+        let input_label = prompt(
+          "Please enter a label for the component",
+          "label"
+        );
+        newLine[0].points.push(x);
+        newLine[0].points.push(y);
+        const newToAdd = {
+          points: newLine[0].points,
+          label: input_label,
+          closed: close,
+          stroke: fillColor,
+          fill: fillColor,
+          key: lines.length + 1,
+        };
+        items.push(newToAdd);
+      }
+
+      setNewLine([]);
+      dispatch(setLines(items));
+    }
+  };
+  // console.log(lines)
+  //---------------------------------------------------------------
+  
+
 
   const annotationsToDraw = [...rectangles, ...newAnnotation];
   const lineToDraw = [...lines, ...newLine];
@@ -259,7 +275,7 @@ const Canvas = (props) => {
                 const item = lines.find(i => i.key === line.key);
                 const index = items.indexOf(item);
                 items.splice(index, 1);
-                setLines(items);
+                dispatch(setLines(items));
                 return;
               }
             }}
@@ -275,7 +291,7 @@ const Canvas = (props) => {
             onChange={(newAttrs) => {
               const line = rectangles.slice();
               line[i] = newAttrs;
-              setLines(line);
+              dispatch(setLines(line));
             }}
           />
         ))}

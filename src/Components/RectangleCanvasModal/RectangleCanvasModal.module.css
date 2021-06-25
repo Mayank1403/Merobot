@@ -54,10 +54,6 @@
   /* border: 1px solid green; */
 }
 
-:root {
-  --main-color: lightslategray;
-}
-
 .Table, th, td{
   border: 1px solid black;
 }
