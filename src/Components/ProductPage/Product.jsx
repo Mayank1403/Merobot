@@ -8,6 +8,8 @@ import { Autocomplete } from "@material-ui/lab";
 import Chat from "./Chat/Chat";
 import { useDispatch } from "react-redux";
 import { USER, addUserChat, BOT, addBotChat } from "../../Redux/Ducks/Chat";
+import { setRectangles } from "../../Redux/Ducks/Rectangles";
+import { setLines } from "../../Redux/Ducks/Lines";
 
 import axios from "axios";
 
@@ -28,6 +30,7 @@ export default function Product() {
   const [bodyParts, setBodyParts] = useState([]);
   const [object, setObject] = useState("");
   const [process, setProcess] = useState(false);
+  const [lastProcess, setLastProcess] = useState("");
 
   const handleApiCall = () => {
     console.log(object);
@@ -56,9 +59,20 @@ export default function Product() {
           setBodyParts(res.data.parts);
         });
       setProcess(false);
+      setLastProcess(text);
     }
-    else{
+    if(object !== "" && process!==true){
+      console.log(lastProcess);
+      axios
+        .get(`http://127.0.0.1:5000/process/${lastProcess}`)
+        .then((res) => {
+          if(lastProcess.toLowerCase()==="update"){
+            dispatch(setRectangles(res.data.lists));}
+          else if(lastProcess.toLowerCase()==="add" || lastProcess.toLowerCase()==="remove")
+            dispatch(setLines(res.data.lists));
+        });
       setProcess(true);
+      setLastProcess("");
     }
     setText("");
   };

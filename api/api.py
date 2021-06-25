@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 
-from details import add_body_parts, remove_body_parts
+from details import add_body_parts, remove_body_parts, rectangle_coords
 
 
 app = Flask(__name__)
@@ -34,57 +34,21 @@ def send_process(process):
             'model': 'line',
             'parts': remove_body_parts
         }
-    if(pro=='manipulate'):
+    if(pro=='update'):
         return{
             'model': 'rect',
             'parts': remove_body_parts
         }
 
 
-@app.route('/add', methods=['GET'])
-def add_coords():
-    return{'lists':[
-    {
-        'height': 97,
-        'key': 1,
-        'stroke': "#b82828",
-        'strokeWidth': 5,
-        'width': 166,
-        'x': 158.046875,
-        'y': 145.453125,
-        'label': 'torso',
-    },
-    {
-        'height': 71,
-        'key': 2,
-        'stroke': "#a728b8",
-        'strokeWidth': 5,
-        'width': 65,
-        'x': 314.046875,
-        'y': 185.453125,
-        'label': 'head',
-    },
-    {
-        'height': 19,
-        'key': 3,
-        'stroke': "#4828b8",
-        'strokeWidth': 5,
-        'width': 62,
-        'x': 107.046875,
-        'y': 203.453125,
-        'label': 'tail',
-    },
-    {
-        'height': 77,
-        'key': 4,
-        'stroke': "#28b867",
-        'strokeWidth': 5,
-        'width': 26,
-        'x': 178.046875,
-        'y': 234.453125,
-        'label': 'leg',
-    }
-    ]}
+@app.route('/process/<string:process>', methods=['GET'])
+def add_coords(process):
+    if(process=="update"):
+        return{'lists': rectangle_coords}
+    elif(process=="add"):
+        return{'lists': []}
+    elif(process=="remove"):
+        return{'lists': []}
 
 if(__name__ == '__main__'):
     app.run(debug=True)

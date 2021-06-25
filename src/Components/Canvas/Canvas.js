@@ -32,14 +32,7 @@ const Canvas = (props) => {
   const fillColor = props.fillColor;
   
   const rect = props.tool === RECTANGLE;
-  useEffect(() => {
-    if(rect){
-      fetch('/add').then(response => {
-        if(response.ok)
-          return response.json()
-      }).then(data=>dispatch(setRectangles(data['lists'])))
-    }
-  }, []);
+  
 
 
   //Rectangle Helper Functions--------------------------------------------
