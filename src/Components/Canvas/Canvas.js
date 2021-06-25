@@ -5,7 +5,7 @@ import LineComponent from "./Line";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addRectangles } from "../../Redux/Ducks/Rectangles";
+import { setRectangles } from "../../Redux/Ducks/Rectangles";
 
 export const RECTANGLE = "rect";
 export const LINE = "line";
@@ -38,7 +38,7 @@ const Canvas = (props) => {
       fetch('/add').then(response => {
         if(response.ok)
           return response.json()
-      }).then(data=>dispatch(addRectangles(data['lists'])))
+      }).then(data=>dispatch(setRectangles(data['lists'])))
     }
   }, []);
   const checkDeselectLine = (e) => {
@@ -101,7 +101,6 @@ const Canvas = (props) => {
             "label"
           );
         }
-
         const annotationToAdd = {
           x: sx,
           y: sy,
@@ -117,7 +116,7 @@ const Canvas = (props) => {
           items.push(annotationToAdd);
         setNewAnnotation([]);
         // setRectangles(rectangles);
-        dispatch(addRectangles(items));
+        dispatch(setRectangles(items));
         console.log(rectangles);
       }
     }
@@ -224,7 +223,7 @@ const Canvas = (props) => {
       height={500}
     >
       <Layer>
-        {annotationsToDraw.map((value, i) => {
+        {props.tool === RECTANGLE && annotationsToDraw.map((value, i) => {
           return (
             <Rectangle
               key={value.key}
@@ -238,20 +237,20 @@ const Canvas = (props) => {
                   const index = items.indexOf(item);
                   items.splice(index, 1);
                   // setRectangles(items);
-                  dispatch(addRectangles(items));
+                  dispatch(setRectangles(items));
                   return;
                 }
               }}
               onChange={(newAttrs) => {
                 const rects = rectangles.slice();
                 rects[i] = newAttrs;
-                dispatch(addRectangles(rects));
+                dispatch(setRectangles(rects));
                 // setRectangles(rects);
               }}
             />
           );
         })}
-        {lineToDraw.map((line,i) => (
+        {props.tool === LINE && lineToDraw.map((line,i) => (
           <LineComponent
             onSelect={() => {
               selectLineShape(line.key);

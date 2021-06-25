@@ -43,7 +43,7 @@ export default function RectangleCanvasModal(props) {
             {rectangles.map((rectangle, index)=>(
               <tr key={index}>
                 <td>{rectangle.label}</td>
-                <td className={styles.Td} styles={{backgroundColor: "red"}}>{rectangle.stroke}</td>
+                <td className={styles.Td} style={{backgroundColor: rectangle.stroke}}></td>
               </tr>
             ))}
           </table>

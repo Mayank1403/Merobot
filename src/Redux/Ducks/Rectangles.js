@@ -1,4 +1,4 @@
-const ADD_RECTANGLES = 'add_rectangles';
+const SET_RECTANGLES = 'set_rectangles';
 // const REMOVE_RECTANGLES = 'remove_rectangles';
 // const ADD_LINES = 'add_lines';
 
@@ -6,9 +6,9 @@ const initState = {
     rect: []
 };
 
-export const addRectangles = (data) => {
+export const setRectangles = (data) => {
     return{
-        type: ADD_RECTANGLES,
+        type: SET_RECTANGLES,
         data,
     }
 }
@@ -24,7 +24,7 @@ export const addRectangles = (data) => {
 
 const Rectangles = (state = initState, action) => {
     switch (action.type){
-        case ADD_RECTANGLES:
+        case SET_RECTANGLES:
             return{...state, rect: action.data};
         default:
             return state;
