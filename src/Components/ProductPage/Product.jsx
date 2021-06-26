@@ -68,8 +68,20 @@ export default function Product() {
     if (text === "") {
       alert("Invalid Input");
     } else {
+      axios
+        .get(`http://127.0.0.1:5000/process/${process}`)
+        .then((res) => {
+          if (process.toLowerCase() === "update") {
+            dispatch(setRectangles(res.data.lists));
+          } else if (
+            process.toLowerCase() === "add" ||
+            process.toLowerCase() === "remove"
+          )
+            dispatch(setLines(res.data.lists));
+          setModal(modal);
+        })
+        .catch((err) => console.log(err));
       dispatch(addUserChat(USER, text));
-      setModal(modal);
       setProcess("");
     }
     setText("");

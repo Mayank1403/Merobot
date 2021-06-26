@@ -44,11 +44,11 @@ def send_process(process):
 
 @app.route('/process/<string:process>', methods=['GET'])
 def add_coords(process):
-    if(process=="update"):
+    if(process.lower()=="update"):
         return{'lists': rectangle_coords}
-    elif(process=="add"):
+    elif(process.lower()=="add"):
         return{'lists': []}
-    elif(process=="remove"):
+    elif(process.lower()=="remove"):
         return{'lists': []}
 
 if(__name__ == '__main__'):
