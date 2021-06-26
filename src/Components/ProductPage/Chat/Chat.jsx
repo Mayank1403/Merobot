@@ -7,14 +7,18 @@ import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
 
 
 
-export default function Chat() {
+const Chat = ({model}) => {
 
 
   const Data = useSelector((state) => state.Chat);
   const chatRef = useRef(null);
   const dispatch = useDispatch();
 
-  const [model, setModel] = useState("");
+  const [openModel, setModel] = useState("");
+  // console.log(openModel)
+  useEffect(() => {
+    setModel(model)
+  }, [model])
 
   const handleModalClose = () => {
     dispatch(addUserChat(STEP, "Changes"));
@@ -36,9 +40,8 @@ export default function Chat() {
                 <div className={styles.imageDiv}>
                   {info.images.map((data, idx) => (
                     <img
-                      src={data.src}
+                      src={data}
                       alt="produced images"
-                      onClick={() => setModel(data.model)}
                       key={idx}
                     />
                   ))}
@@ -59,8 +62,8 @@ export default function Chat() {
           <div className={styles.step}>*** {info.message} ***</div>
         )
       )}
-      {model !== "" ? (
-        model === "rect" ? (
+      {openModel !== "" ? (
+        openModel === "rect" ? (
           <RectangleCanvasModal isDone={handleModalClose} />
         ) : (
           <div>
@@ -73,3 +76,5 @@ export default function Chat() {
     </div>
   );
 }
+
+export default Chat

@@ -13,8 +13,6 @@ import { setLines } from "../../Redux/Ducks/Lines";
 
 import axios from "axios";
 
-
-
 export default function Product() {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
@@ -29,67 +27,62 @@ export default function Product() {
   // ];
   const [bodyParts, setBodyParts] = useState([]);
   const [object, setObject] = useState("");
-  const [process, setProcess] = useState(false);
-  const [lastProcess, setLastProcess] = useState("");
+  const [processList, setProcessList] = useState([]);
+  const [process, setProcess] = useState("");
+  const [modal, getModal] = useState("");
+  const [sendModal, setModal] = useState("");
 
-  const handleApiCall = () => {
-    console.log(object);
+  const handleSetObjectApiCall = () => {
+    setObject(text);
+    dispatch(addUserChat(USER, text));
     axios
       .get(`http://127.0.0.1:5000/images/${text}`)
       .then((res) => {
-        console.log(res);
+        setText("");
         const data = {
           sender: BOT,
           hasImage: true,
           images: res.data.images,
         };
+        setProcessList(res.data.process);
         dispatch(addBotChat(data));
       })
       .catch((err) => console.log(err));
   };
 
-  const handleClick = () => {
-    dispatch(addUserChat(USER, text));
-    if(process===true){
-      //do the first api call here
-      axios
-        .get(`http://127.0.0.1:5000/open/${text}`)
-        .then((res) => {
-          console.log(res);
-          setBodyParts(res.data.parts);
-        });
-      setProcess(false);
-      setLastProcess(text);
-    }
-    if(object !== "" && process!==true){
-      console.log(lastProcess);
-      axios
-        .get(`http://127.0.0.1:5000/process/${lastProcess}`)
-        .then((res) => {
-          if(lastProcess.toLowerCase()==="update"){
-            dispatch(setRectangles(res.data.lists));}
-          else if(lastProcess.toLowerCase()==="add" || lastProcess.toLowerCase()==="remove")
-            dispatch(setLines(res.data.lists));
-        });
-      setProcess(true);
-      setLastProcess("");
+  const handleSetProcess = () => {
+    setProcess(text);
+    if (text === "") {
+      alert("Invalid Input");
+    } else {
+      dispatch(addUserChat(USER, text));
+      axios.get(`http://127.0.0.1:5000/open/${text}`).then((res) => {
+        setBodyParts(res.data.parts);
+        getModal(res.data.model);
+      });
     }
     setText("");
   };
 
-
-  // const filterOptions = createFilterOptions({
-  //   matchFrom: "any",
-  // });
+  const handleSetBodyPart = () => {
+    if (text === "") {
+      alert("Invalid Input");
+    } else {
+      dispatch(addUserChat(USER, text));
+      setModal(modal);
+      setProcess("");
+    }
+    setText("");
+  };
 
   return (
     <div className={styles.Container}>
       <div className={styles.chatScreen}>
-        <Chat />
+        <Chat model={sendModal} />
       </div>
       <div className={styles.inputContainer}>
         <div className={styles.inputField}>
-          {(object === "" || process) ? (
+          {object === "" ? (
             <TextField
               id="outlined-basic"
               label="Enter Text"
@@ -100,12 +93,10 @@ export default function Product() {
             />
           ) : (
             <Autocomplete
-              // defaultValue={text}
               id="combo-box-demo"
-              options={bodyParts}
+              options={process === "" ? processList : bodyParts}
+              value={text}
               getOptionLabel={(option) => option}
-              // filterOptions={filterOptions}
-              // style={{ width: 300 }}
               autoHighlight
               freeSolo
               clearOnEscape
@@ -126,13 +117,10 @@ export default function Product() {
           className={styles.sendButton}
           onClick={
             object === ""
-              ? (e) => {
-                  handleClick()
-                  setObject(text);
-                  setProcess(true);
-                  handleApiCall();
-                }
-              : handleClick
+              ? handleSetObjectApiCall
+              : process === ""
+              ? handleSetProcess
+              : handleSetBodyPart
           }
         >
           Send
