@@ -18,6 +18,7 @@ const Canvas = (props) => {
   // const [rectangles, setRectangles] = useState([]);
   //Rectangle variables
   const rectangles = useSelector((state) => state.Rectangles.rect); //main array of objects
+  console.log(rectangles)
   const [newAnnotation, setNewAnnotation] = useState([]); //temporary array of object
   const [selectedId, selectShape] = useState(null);
 
