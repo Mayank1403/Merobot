@@ -25,6 +25,7 @@
 .sendButton {
   padding: 15px 30px;
   background-color: darkturquoise;
+  border: 0;
   border-radius: 10px;
   color: aliceblue;
   font-weight: 700;

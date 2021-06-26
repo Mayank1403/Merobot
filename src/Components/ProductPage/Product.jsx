@@ -86,6 +86,14 @@ export default function Product() {
     setText("");
   };
 
+  const checkDisable = () => {
+    if(object==="")
+      return false;
+    if(bodyParts.includes(text) || processList.includes(text))
+      return false;
+    return true;
+  }
+
   return (
     <div className={styles.Container}>
       <div className={styles.chatScreen}>
@@ -124,8 +132,9 @@ export default function Product() {
             />
           )}
         </div>
-        <div
+        <button
           className={styles.sendButton}
+          disabled={checkDisable()}
           onClick={
             object === ""
               ? handleSetObjectApiCall
@@ -135,7 +144,7 @@ export default function Product() {
           }
         >
           Send
-        </div>
+        </button>
       </div>
     </div>
   );
