@@ -6,16 +6,12 @@ import RectangleCanvasModal from "../../RectangleCanvasModal/RectangleCanvasModa
 import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
 
 
-
 const Chat = ({model}) => {
-
-
   const Data = useSelector((state) => state.Chat);
   const chatRef = useRef(null);
   const dispatch = useDispatch();
 
   const [openModel, setModel] = useState("");
-  // console.log(openModel)
   useEffect(() => {
     setModel(model)
   }, [model])

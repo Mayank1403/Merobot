@@ -1,7 +1,3 @@
-// import img1 from "../../Assets/first.png";
-// import img2 from "../../Assets/second.png";
-// import img3 from "../../Assets/third.png";
-
 const ADD_USER_CHAT = "add_user_chat";
 const ADD_BOT_CHAT = "add_bot_chat";
 export const BOT = "bot";
@@ -51,7 +47,7 @@ const Chat = (state = initState, action) => {
           {
             sender: action.data.sender,
             hasImage: action.data.hasImage,
-            message: action.data.image,
+            message: action.data.message,
           },
         ];
       }
