@@ -51,6 +51,7 @@ export default function Product() {
   };
 
   const handleSetProcess = () => {
+    setModal("");
     setProcess(text);
     if (text === "") {
       alert("Invalid Input");
