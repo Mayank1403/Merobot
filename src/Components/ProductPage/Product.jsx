@@ -16,15 +16,6 @@ import axios from "axios";
 export default function Product() {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
-
-  //delete this later on
-  // const body_parts = [
-  //   "add left-horn",
-  //   "add right-horn",
-  //   "add tail",
-  //   "add left-leg",
-  //   "add right-leg",
-  // ];
   const [bodyParts, setBodyParts] = useState([]);
   const [object, setObject] = useState("");
   const [processList, setProcessList] = useState([]);
@@ -56,6 +47,13 @@ export default function Product() {
       alert("Invalid Input");
     } else {
       dispatch(addUserChat(USER, text));
+      dispatch(
+        addBotChat({
+          sender: BOT,
+          hasImage: false,
+          message: `What do you want to ${text}`,
+        })
+      );
       axios.get(`http://127.0.0.1:5000/open/${text}`).then((res) => {
         setBodyParts(res.data.parts);
         getModal(res.data.model);

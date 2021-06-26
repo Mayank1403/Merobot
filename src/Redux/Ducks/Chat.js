@@ -36,14 +36,25 @@ const Chat = (state = initState, action) => {
         },
       ];
     case ADD_BOT_CHAT:
-      return [
-        ...state,
-        {
-          sender: action.data.sender,
-          hasImage: action.data.hasImage,
-          images: action.data.images,
-        },
-      ];
+      if (action.data.hasImage) {
+        return [
+          ...state,
+          {
+            sender: action.data.sender,
+            hasImage: action.data.hasImage,
+            images: action.data.images,
+          },
+        ];
+      } else {
+        return [
+          ...state,
+          {
+            sender: action.data.sender,
+            hasImage: action.data.hasImage,
+            message: action.data.image,
+          },
+        ];
+      }
     default:
       return state;
   }
