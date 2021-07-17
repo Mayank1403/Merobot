@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, /*useEffect*/ } from "react";
 import { Stage, Layer } from "react-konva";
 import Rectangle from "./Rectangle";
 import LineComponent from "./Line";
@@ -32,7 +32,7 @@ const Canvas = (props) => {
   const color = props.color;
   const fillColor = props.fillColor;
   
-  const rect = props.tool === RECTANGLE;
+  // const rect = props.tool === RECTANGLE;
   
 
 

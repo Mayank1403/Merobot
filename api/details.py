@@ -43,3 +43,5 @@ rectangle_coords = [
         'label': 'leg',
     }
 ]
+
+label_size = {'bird': 13, 'cat': 17, 'cow': 19, 'dog': 18, 'horse': 21, 'bottle': 2, 'person': 24, 'bus': 9, 'car': 9, 'aeroplane': 5, 'motorbike': 4, 'bicycle': 5, 'train': 6, 'sheep': 19}

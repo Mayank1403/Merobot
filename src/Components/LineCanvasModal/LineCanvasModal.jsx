@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./LineCanvasModal.module.css";
-import Canvas, { RECTANGLE, LINE } from "../Canvas/Canvas.js";
+import Canvas, { /*RECTANGLE,*/ LINE } from "../Canvas/Canvas.js";
 import img1 from "../../Assets/first.png";
 import img2 from "../../Assets/second.png";
 
