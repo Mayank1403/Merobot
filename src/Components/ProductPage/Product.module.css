@@ -1,0 +1,42 @@
+.Container {
+  /* border: 1px solid red; */
+  padding: var(--gutter);
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.chatScreen {
+  height: calc(84vh - var(--nav-height));
+  /* border: 1px solid black; */
+}
+
+.inputContainer {
+  /* border: 1px solid green; */
+  display: flex;
+  align-items: center;
+}
+
+.inputField {
+  flex: 1;
+  /* border: 1px solid blue; */
+  padding: 0 1vw;
+}
+
+.sendButton {
+  padding: 15px 30px;
+  background-color: darkturquoise;
+  border: 0;
+  border-radius: 10px;
+  color: aliceblue;
+  font-weight: 700;
+  cursor: pointer;
+  /* border: 1px solid green; */
+}
+/* 
+.suggestion{
+  display: block;
+  position: absolute;
+  bottom: 18vh;
+  width: 80%;
+  text-align: center;
+} */
