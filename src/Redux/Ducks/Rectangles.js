@@ -14,6 +14,7 @@ export const setRectangles = (data) => {
 const Rectangles = (state = initState, action) => {
     switch (action.type){
         case SET_RECTANGLES:
+            console.log(state)
             return{...state, rect: action.data};
         default:
             return state;
