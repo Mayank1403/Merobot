@@ -977,7 +977,7 @@ def rectangle_call(object_name,labelss,ind):
         key_value['stroke'] = stroke
         key_value['label'] = label
         out.append(key_value)
-  return out
+  return out, labels_text
 
 # %%
 app = Flask(__name__)
@@ -985,6 +985,7 @@ CORS(app)
 default_size = 24
 
 rectangle_coords1 = []
+labels_used = []
 @app.route("/")
 # def home():
 #   return "<h1>Server Working</h1>"  
@@ -1012,10 +1013,11 @@ def clvec_generator(object):
 def send_images(object):
     object = object.lower()
     global rectangle_coords1
+    global labels_used
     print(object)
     labels = labels_array_generator(object)
     labels = labels.reshape(1,24,1)
-    rectangle_coords1 = rectangle_call(object,labels,ind = 2)
+    rectangle_coords1, labels_used = rectangle_call(object,labels,ind = 2)
     print(rectangle_coords1)
 
     if(object in animals):
