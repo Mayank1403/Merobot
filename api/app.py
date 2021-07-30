@@ -61,6 +61,7 @@ def send_images(object):
     else:
         return {"images" : [], "process" : []}
 
+################
 #later
 # @app.route('/images/<string:object>', methods=['GET'])
 # def send_images(object):
@@ -72,14 +73,19 @@ def send_images(object):
 #   return '<h1>Ho Gaya Khatam</h1>'
 ###############
 
+#get list of all parts
+def get_all_parts(object):
+  all_parts = list(part_labels[object].keys())
+  return all_parts
 
-def partsNotIncluded():
-    parts_not_included = []
-    for i in range(len(part_labels)):
-        print(i)
-    return parts_not_included
-
-
+#get all the parts that are not included in the image
+def get_remaining_parts(object):
+    all_parts = get_all_parts(object)
+    remaining_parts = []
+    for part in all_parts:
+        if part not in labels_used:
+            remaining_parts.append(part)
+    return remaining_parts
 
 @app.route('/open/<string:process>', methods=['GET'])
 def send_process(process):
