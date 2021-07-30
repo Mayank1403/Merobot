@@ -281,6 +281,7 @@ def masked_call():
       step = (stop-start)/(period*ratio) # linear schedule
 
       for c in range(n_cycle):
+          
           v, i = start, 0
           while v <= stop and (int(i+c*period) < n_iter):
               L[int(i+c*period)] = v
@@ -309,7 +310,7 @@ def masked_call():
 
   with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    saver.restore(sess, "./save_bitmaps_colab_new.ckpt")
+    saver.restore(sess, "./data/save_bitmaps_colab_new.ckpt")
     start = 0
     for ind_ in range(len(bb)//batch_size):
 
@@ -343,4 +344,4 @@ def masked_call():
               print(r)
 
 #%%
-masked_call()
+# masked_call()
