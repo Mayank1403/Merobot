@@ -281,6 +281,7 @@ def masked_call():
       step = (stop-start)/(period*ratio) # linear schedule
 
       for c in range(n_cycle):
+          
           v, i = start, 0
           while v <= stop and (int(i+c*period) < n_iter):
               L[int(i+c*period)] = v
