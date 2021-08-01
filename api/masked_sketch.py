@@ -34,8 +34,11 @@ def bounder(img):
 #%%
 def add_images(canvas,img, ii):
     result = np.where(img!=0)
+    print("MAAL", result)
     listOfCoordinates = list(zip(result[0], result[1]))
+    print("List of Coordinates yhii hai \n\n\n\n", listOfCoordinates)
     for cord in listOfCoordinates:
+        print('MAAL ke Andar ka MAAL', cord, canvas[cord])
         canvas[cord] = ii
     return canvas
 
@@ -102,43 +105,51 @@ def label_2_image(img):
 
 #%%
 # mast maal hai delete nahi karo 
-bb = np.asarray([
-[[180., 276.-30, 512., 334.+30],
-       [ 37+20., 201., 173.+20, 315.],
-       [  0.,   0.,   0.,   0.],
-       [265., 279., 397., 334.],
-       [ 0,0,0,0],
-       [366., 305., 423., 326.],
-       [368., 322., 416., 337.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [0,0,0,0],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.],
-       [  0.,   0.,   0.,   0.]]
-])
+# bb = np.asarray([
+# [[180., 276.-30, 512., 334.+30],
+#        [ 37+20., 201., 173.+20, 315.],
+#        [  0.,   0.,   0.,   0.],
+#        [265., 279., 397., 334.],
+#        [ 0,0,0,0],
+#        [366., 305., 423., 326.],
+#        [368., 322., 416., 337.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [0,0,0,0],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.],
+#        [  0.,   0.,   0.,   0.]]
+# ])
 #['cow','sheep','bird','person','cat','dog','horse','aeroplane','motorbike','bicycle'
-cc = np.asarray([[0., 0., 0., 0., 0., 0., 0., 1., 0., 0.]])
+# cc = np.asarray([[0., 0., 0., 0., 0., 0., 0., 1., 0., 0.]])
+
+cc_list = ['cow','sheep','bird','person','cat','dog','horse','aeroplane','motorbike','bicycle']
+def cc_generator(object):
+    cc = np.zeros((1,10))
+    for i in range(10):
+        if object == cc_list[i]:
+            cc[0,i] = 1
+    return cc
 
 #%%
 class_dic = {0:'cow',1:'sheep',2:'bird',3:'person',4:'cat',5:'dog',6:'horse',7:'aeroplane',8:'motorbike',9:'bicycle'}
 
-def masked_call():
+def masked_call(object,bb):
   #placeholders::
   # batch_size = 1
   # max_num_node = 24
-
+  cc = cc_generator(object)
   tf.reset_default_graph()
 
   true_maps = tf.placeholder(tf.float32, [batch_size, max_num_node, 64, 64, 1])
@@ -335,12 +346,19 @@ def masked_call():
                           canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ] = add_images(canvas[ int(y_min):int(y_max), int(x_min):int(x_max)  ],cv2.resize(bounder(np.squeeze(mmx[i]))*(i+1), (y,x)), i+1)
               except:
                   print('no problem')
+            #   print('CANVAS\n',canvas.shape)
               images.append(canvas)
+            #   print('\n\n\n\n\n')
+            #   for i in canvas:
+            #       print(i)
+            #   print('\n\n\n\n\n')
+
               sza = 10
               plt.figure(num=None, figsize=(sza, sza))
               plt.axis('off')
               plt.imshow(label_2_image(canvas))
-              plt.show()
+            #   plt.show()
+              plt.savefig('masked.png')
               print(r)
 
 #%%

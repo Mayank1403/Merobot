@@ -13,6 +13,15 @@ max_num_node = 24
 canvas_size = 550
 
 # %%
+def labels_array_generator(object):
+  list_size = object_list[object]
+  diff = default_size - list_size
+  labels = [np.array([random.randint(0, 1)]).astype(float) for i in range(list_size)]
+  for _ in range(diff):
+    labels.append(np.array([0.0]).astype(float))
+  return np.array(labels)
+
+# %%
 object_names = ['cow','sheep','bird','person','cat','dog','horse','aeroplane','motorbike','bicycle']
 
 class_dic = {'cow':0,'sheep':1,'bird':2,'person':3,'cat':4,'dog':5,'horse':6,'aeroplane':7,'motorbike':8,'bicycle':9,'car':10}
@@ -967,4 +976,4 @@ def rectangle_call(object_name,labelss,ind):
         key_value['stroke'] = stroke
         key_value['label'] = label
         out.append(key_value)
-  return out, labels_text
+  return out, labels_text, bbx_gen_sketch

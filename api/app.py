@@ -1,4 +1,5 @@
 #%%
+from masked_sketch import masked_call
 from flask import Flask
 from flask_cors import CORS
 import random
@@ -15,9 +16,10 @@ default_size = 24
 
 rectangle_coords1 = []
 labels_used = []
+remaining_parts = []
 @app.route("/")
-# def home():
-#   return "<h1>Server Working</h1>"  
+def home():
+  return "<h1>Server Working</h1>"  
 
 def labels_array_generator(object):
   list_size = object_list[object]
@@ -46,9 +48,15 @@ def send_images(object):
     print(object)
     labels = labels_array_generator(object)
     labels = labels.reshape(1,24,1)
-    rectangle_coords1, labels_used = rectangle_call(object,labels,ind = 2)
+    rectangle_coords1, labels_used , bb= rectangle_call(object,labels,ind = 2)
+    bb =  np.asarray(bb)
+    maskedData = masked_call(object,bb)
+    print("maskedData",maskedData)
+    print(bb.shape, type(bb))
     print(rectangle_coords1)
-
+    global remaing_parts
+    remaing_parts = get_remaining_parts(object)
+    print(remaing_parts)
     if(object in animals):
         return{
             'images': [
@@ -71,7 +79,7 @@ def send_images(object):
 #   labels = labels.reshape(1,24,1)
 #   rectangle_call(object,labels,ind = 2)
 #   return '<h1>Ho Gaya Khatam</h1>'
-###############
+#################
 
 #get list of all parts
 def get_all_parts(object):
