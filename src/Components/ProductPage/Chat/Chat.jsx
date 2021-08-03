@@ -36,7 +36,7 @@ const Chat = ({model}) => {
                 <div className={styles.imageDiv}>
                   {info.images.map((data, idx) => (
                     <img
-                      src={data}
+                      src={`data:image/png;base64, ${data}`}
                       alt="produced images"
                       key={idx}
                     />
