@@ -944,6 +944,22 @@ def rectangle_call(object_name,labelss,ind):
               print("Coords",coords)
               
               plt.savefig('rectangle.png')
+            #   img = cv2.imread("./rectangle.png", 1)
+            #   bigger = cv2.resize(img, (8000, 8000))
+            # #   cv2.imwrite("rectangle.png", bigger)
+            #   plt.figure(num=None, figsize=(sza, sza))
+            #   plt.axis('off')
+            #   plt.imshow(bigger)
+            #   plt.savefig('rectangle.png')
+              print("Coords",coords)
+            #   fig, ax = plt.subplots()
+            #   ax.set_xlim(0, 2)
+            #   ax.set_ylim(0, 2)
+            #   out_coords = []
+            #   for coord in coords:
+            #       out_coords.append(ax.transData.transform(coord))
+            #   coords = out_coords
+            #   print("yeh main hai ",coords)
             #   plt.show()
               # plt.savefig('output.jpeg')
               print(rr)
@@ -957,6 +973,7 @@ def rectangle_call(object_name,labelss,ind):
           position = values.index(iout+1) #(24-len(labels_passed))
           labels_text.append(keys[position])
       print(labels_text)
+    #   scale_factor = (coords[len(coords)-1][2] - coords[0][0])/coords[len(coords)-1][2]
       for i in range(len(coords)):
         key_value = {}
         height = abs(coords[i][1] - coords[i][3])

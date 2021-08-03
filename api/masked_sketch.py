@@ -34,11 +34,11 @@ def bounder(img):
 #%%
 def add_images(canvas,img, ii):
     result = np.where(img!=0)
-    print("MAAL", result)
+    # print("MAAL", result)
     listOfCoordinates = list(zip(result[0], result[1]))
-    print("List of Coordinates yhii hai \n\n\n\n", listOfCoordinates)
+    # print("List of Coordinates yhii hai \n\n\n\n", listOfCoordinates)
     for cord in listOfCoordinates:
-        print('MAAL ke Andar ka MAAL', cord, canvas[cord])
+        # print('MAAL ke Andar ka MAAL', cord, canvas[cord])
         canvas[cord] = ii
     return canvas
 
@@ -186,6 +186,7 @@ def masked_call(object,bb):
       print("dense_cond", dense_cond.shape)
 
       
+
       #encoder_bitmaps
       enc = TimeDistributed(Conv2D(8, kernel_size=3))(maps_)
       enc = TimeDistributed(tf.layers.BatchNormalization(trainable = False))(enc)
