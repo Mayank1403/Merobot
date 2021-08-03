@@ -10,4 +10,4 @@ def get_response_image(image_path):
     encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
     return encoded_img
 
-print(get_response_image('rectangle.png'))
+print(type(get_response_image('rectangle.png')))
