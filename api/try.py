@@ -1,14 +1,13 @@
-import numpy as np
+import io
+from base64 import encodebytes
+from PIL import Image
+# from flask import jsonify
 
-cc_list = ['cow','sheep','bird','person','cat','dog','horse','aeroplane','motorbike','bicycle']
-def cc_generator(object):
-    cc = np.zeros((1,10))
-    for i in range(10):
-        if object == cc_list[i]:
-            cc[0,i] = 1
-    return cc
+def get_response_image(image_path):
+    pil_img = Image.open(image_path, mode='r') # reads the PIL image
+    byte_arr = io.BytesIO()
+    pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
+    encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+    return encoded_img
 
-cc = np.asarray([[0., 0., 0., 0., 0., 0., 0., 1., 0., 0.]])
-
-print(cc_generator('aeroplane'), cc_generator('aeroplane').shape)
-print(cc, cc.shape)
+print(get_response_image('rectangle.png'))
