@@ -12,6 +12,7 @@ import { setRectangles } from "../../Redux/Ducks/Rectangles";
 import { setLines } from "../../Redux/Ducks/Lines";
 
 import axios from "axios";
+import { storeImages } from "../../Redux/Ducks/Images";
 
 export default function Product() {
   const [text, setText] = useState("");
@@ -30,6 +31,7 @@ export default function Product() {
       .get(`http://127.0.0.1:5000/images/${text}`)
       .then((res) => {
         setText("");
+        dispatch(storeImages(res.data.images))
         const data = {
           sender: BOT,
           hasImage: true,

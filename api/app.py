@@ -77,8 +77,8 @@ def send_images(object):
                 # # 'https://lh3.googleusercontent.com/9z4NI-7aFTKmCQRBeaLSjuf8KT18wUbGmrtOJkjy1yoZ0nAeYWpixWflfplkAOA8TJDKYhgvQ-N23_orO8a-7ABrjJoO7wdx-6qT_jl2ELv6a7Y-3Km9z_06kQqqnM6iczNu-9yhnQ=w2400',
                 # jsonify(send_file('rectangle.png',as_attachment=True,attachment_filename='rectangle.png',mimetype='image/png')),
                 # 'https://lh3.googleusercontent.com/YoTNC0K8dgfT-d16mwuGdMqFhdiUrkw2F9YO7PCy500M3NIUB2ih0RSGeC3kANSeeqr0G7wmoqmlxC6bi6NCOpAJb3OLvAEqOBJQparfEbY4YJH8D2nC9DgORjT3oN60mkxER4sMuQ=w2400',
-                get_response_image('rectangle.png'),
-                get_response_image('masked.png'),
+                "data:image/png;base64, " + get_response_image('rectangle.png'),
+                "data:image/png;base64, " + get_response_image('masked.png'),
             ],
             'process': process
         }

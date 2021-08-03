@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styles from "./RectangleCanvasModal.module.css";
 import Canvas, { RECTANGLE } from "../Canvas/Canvas.js";
-import img1 from "../../Assets/first.png";
-import img3 from "../../Assets/third.png";
 import { useSelector } from "react-redux";
 
 
 export default function RectangleCanvasModal(props) {
   const rectangles = useSelector((state) => state.Rectangles.rect);
+  const img1 = useSelector((state) => state.Images.img1);
+  const img3 = useSelector((state) => state.Images.img3);
   const [color, setColor] = useState("#000000");
   const [selection, setSelection] = useState('rectangle');
   return (

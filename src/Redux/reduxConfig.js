@@ -2,11 +2,13 @@ import { createStore, combineReducers } from "redux";
 import Chat from "./Ducks/Chat";
 import Rectangles from "./Ducks/Rectangles";
 import Lines from "./Ducks/Lines";
+import Images from "./Ducks/Images";
 
 const allReducers = combineReducers({
   Chat,
   Rectangles,
   Lines,
+  Images
 });
 
 const store = createStore(

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styles from "./LineCanvasModal.module.css";
-import Canvas, { /*RECTANGLE,*/ LINE } from "../Canvas/Canvas.js";
-import img1 from "../../Assets/first.png";
-import img2 from "../../Assets/second.png";
-
+import Canvas, { LINE } from "../Canvas/Canvas.js";
 import { useSelector } from "react-redux";
 
 export default function RectangleCanvasModal(props) {
   const lines = useSelector((state) => state.Lines.line);
+  const img1 = useSelector((state) => state.Images.img1);
+  const img2 = useSelector((state) => state.Images.img2);
+
   // const [color, setColor] = useState("#000000");
   const color = "#000000";
   const [fillColor, setFillColor] = useState("#FeB142");
