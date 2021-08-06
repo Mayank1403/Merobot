@@ -31,6 +31,7 @@ def bounder(img):
         img[cord] = 1
     return img
 
+final_coords = {}
 #%%
 def add_images(canvas,img, ii):
     result = np.where(img!=0)
