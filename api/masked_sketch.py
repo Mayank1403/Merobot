@@ -37,7 +37,10 @@ def add_images(canvas,img, ii):
     result = np.where(img!=0)
     # print("MAAL", result)
     listOfCoordinates = list(zip(result[0], result[1]))
-    # print("List of Coordinates yhii hai \n\n\n\n", listOfCoordinates)
+    # print("----------------")
+    # print("List of Coordinates yhii hai\n", listOfCoordinates)
+    # print("----------------")
+    print("Value of ii --> ", ii)
     for cord in listOfCoordinates:
         # print('MAAL ke Andar ka MAAL', cord, canvas[cord])
         canvas[cord] = ii
@@ -339,6 +342,7 @@ def masked_call(object,bb):
           images= []
           for j in range(batch_size):
               canvas = np.zeros((canvas_size, canvas_size), dtype= 'float32')
+              ii_list = []
               bb_in, mmx = arrangement(b_in[j], mx[0][j], class_dic[np.argmax(c_in)])
               try:
                   for i in range(24):
@@ -346,23 +350,19 @@ def masked_call(object,bb):
                       if x_max-x_min > 0 and y_max-y_min>0:
                           x, y = canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ].shape
                           canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ] = add_images(canvas[ int(y_min):int(y_max), int(x_min):int(x_max)  ],cv2.resize(bounder(np.squeeze(mmx[i]))*(i+1), (y,x)), i+1)
+                          ii_list.append(i+1)
               except:
                   print('no problem')
-              print('CANVAS\n',canvas.shape)
-              print('CANVAS\n',canvas)
-              print(np.array(np.where(canvas == np.max(canvas))))
-              print(np.max(canvas))
+              print("--------------------------------------------")
+              for i in ii_list:
+                result = np.where(canvas == i)
+                out = [x for xs in zip(result[0], result[1]) for x in xs]
+                print(out)
               images.append(canvas)
-            #   print('\n\n\n\n\n')
-            #   for i in canvas:
-            #       print(i)
-            #   print('\n\n\n\n\n')
-
               sza = 10
               plt.figure(num=None, figsize=(sza, sza))
               plt.axis('off')
               plt.imshow(label_2_image(canvas))
-            #   plt.show()
               plt.savefig('masked.png')
               print(r)
 
