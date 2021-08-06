@@ -69,9 +69,7 @@ def send_images(object):
     print("maskedData",masked_coord1)
     print(bb.shape, type(bb))
     print(rectangle_coords1)
-    global remaing_parts
-    remaing_parts = get_remaining_parts(object)
-    print(remaing_parts)
+    get_remaining_parts(object)
     if(object in animals):
         return{
             'images': [
@@ -107,11 +105,10 @@ def get_all_parts(object):
 #get all the parts that are not included in the image
 def get_remaining_parts(object):
     all_parts = get_all_parts(object)
-    remaining_parts = []
+    global remaining_parts
     for part in all_parts:
         if part not in labels_used:
             remaining_parts.append(part)
-    return remaining_parts
 
 @app.route('/open/<string:process>', methods=['GET'])
 def send_process(process):
@@ -119,17 +116,17 @@ def send_process(process):
     if(pro=='add'):
         return{
             'model': 'line',
-            'parts': add_body_parts
+            'parts': remaining_parts
         }
     if(pro=='remove'):
         return{
             'model': 'line',
-            'parts': remove_body_parts
+            'parts': labels_used
         }
     if(pro=='update'):
         return{
             'model': 'rect',
-            'parts': remove_body_parts
+            'parts': labels_used
         }
 
 
