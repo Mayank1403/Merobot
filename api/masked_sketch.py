@@ -31,6 +31,7 @@ def bounder(img):
         img[cord] = 1
     return img
 
+final_coords = {}
 #%%
 def add_images(canvas,img, ii):
     result = np.where(img!=0)
@@ -186,6 +187,7 @@ def masked_call(object,bb):
       print("dense_cond", dense_cond.shape)
 
       
+
       #encoder_bitmaps
       enc = TimeDistributed(Conv2D(8, kernel_size=3))(maps_)
       enc = TimeDistributed(tf.layers.BatchNormalization(trainable = False))(enc)
