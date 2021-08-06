@@ -10,7 +10,7 @@ import math
 from tensorflow.keras import backend as K
 import sys
 import cv2
-
+from rectangles_sketch import rgb_to_hex
 
 
 max_num_node = 24
@@ -98,6 +98,23 @@ def arrangement(a, b, object_name):
       print("error")
     return a[p], b[p]
 
+#%%
+bird_labels = {'head':1, 'leye':2, 'reye':3, 'beak':4, 'torso':5, 'neck':6, 'lwing':7, 'rwing':8, 'lleg':9, 'lfoot':10, 'rleg':11, 'rfoot':12, 'tail':13}
+cat_labels = {'head':1, 'leye':2, 'reye':3, 'lear':4, 'rear':5, 'nose':6, 'torso':7, 'neck':8, 'lfleg':9, 'lfpa':10, 'rfleg':11, 'rfpa':12, 'lbleg':13, 'lbpa':14, 'rbleg':15, 'rbpa':16, 'tail':17}
+cow_labels = {'head':1, 'leye':2, 'reye':3, 'lear':4, 'rear':5, 'muzzle':6, 'lhorn':7, 'rhorn':8, 'torso':9, 'neck':10, 'lfuleg':11, 'lflleg':12, 'rfuleg':13, 'rflleg':14, 'lbuleg':15, 'lblleg':16, 'rbuleg':17, 'rblleg':18, 'tail':19}
+dog_labels = {'head':1, 'leye':2, 'reye':3, 'lear':4, 'rear':5, 'nose':6, 'torso':7, 'neck':8, 'lfleg':9, 'lfpa':10, 'rfleg':11, 'rfpa':12, 'lbleg':13, 'lbpa':14, 'rbleg':15, 'rbpa':16, 'tail':17, 'muzzle':18}
+horse_labels = {'head':1, 'leye':2, 'reye':3, 'lear':4, 'rear':5, 'muzzle':6, 'lfho':7, 'rfho':8, 'torso':9, 'neck':10, 'lfuleg':11, 'lflleg':12, 'rfuleg':13, 'rflleg':14, 'lbuleg':15, 'lblleg':16, 'rbuleg':17, 'rblleg':18, 'tail':19, 'lbho':20, 'rbho':21}
+person_labels = {'head':1, 'leye':2,  'reye':3, 'lear':4, 'rear':5, 'lebrow':6, 'rebrow':7,  'nose':8,  'mouth':9,  'hair':10, 'torso':11, 'neck': 12, 'llarm': 13, 'luarm': 14, 'lhand': 15, 'rlarm':16, 'ruarm':17, 'rhand': 18, 'llleg': 19, 'luleg':20, 'lfoot':21, 'rlleg':22, 'ruleg':23, 'rfoot':24}
+aeroplane_labels = {'body': 1, 'stern': 2, 'lwing': 3, 'rwing':4, 'tail':5}
+motorbike_labels = {'fwheel': 1, 'bwheel': 2, 'handlebar': 3, 'saddle': 4}
+bicycle_labels = {'fwheel': 1, 'bwheel': 2, 'saddle': 3, 'handlebar': 4, 'chainwheel': 5}
+sheep_labels = cow_labels
+animals = ['bird', 'cat', 'cow', 'dog', 'sheep', 'horse', 'bicycle', 'motorbike', 'person', 'aeroplane']
+part_labels = {'bird': bird_labels, 'cat': cat_labels, 'cow': cow_labels, 'dog': dog_labels, 'sheep': sheep_labels, 'horse':horse_labels, 'bicycle':bicycle_labels, 'motorbike':motorbike_labels, 'person':person_labels,'aeroplane':aeroplane_labels}
+
+object_list = dict()
+for i in part_labels:
+    object_list.update({i : len(part_labels[i])})
 #%%
 object_names = ['cow','sheep','bird','person','cat','dog','horse','aeroplane','motorbike','bicycle']#,'sheep','bird','person','cat','dog','horse','cow']
 
@@ -368,12 +385,19 @@ def masked_call(object,bb):
                     out.append(out1)
                 result = out
                 out = []
+                # color = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
+                # labels_text = []
+                labels_main = part_labels[object]
+                values = list(labels_main.values())
+                keys = list(labels_main.keys())
+                position = values.index(i)
+                # labels_text.append(keys[position])
                 
                 out = [x for xs in zip(result[1], result[0]) for x in xs]
-                label = i
+                label = keys[position]
                 closed = True
-                stroke = "#FF5733"
-                fill = "#FF5733"
+                stroke = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
+                fill = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
                 key = i
                 key_value["points"] = out
                 key_value["label"] = label
