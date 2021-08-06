@@ -11,6 +11,7 @@ from tensorflow.keras import backend as K
 import sys
 import cv2
 from rectangles_sketch import rgb_to_hex
+from PIL import Image
 
 
 max_num_node = 24
@@ -413,6 +414,9 @@ def masked_call(object,bb):
               plt.axis('off')
               plt.imshow(label_2_image(canvas))
               plt.savefig('masked.png')
+            #   img = Image.open("./masked_1.png")
+            #   img = img.resize((700, 700), Image.ANTIALIAS)
+            #   img.save("masked.png")
               print(r)
     print(final_coords)
     return final_coords
