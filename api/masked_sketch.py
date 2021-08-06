@@ -1,4 +1,5 @@
 #%%
+from typing_extensions import final
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -31,7 +32,7 @@ def bounder(img):
         img[cord] = 1
     return img
 
-final_coords = {}
+
 #%%
 def add_images(canvas,img, ii):
     result = np.where(img!=0)
@@ -354,10 +355,34 @@ def masked_call(object,bb):
               except:
                   print('no problem')
               print("--------------------------------------------")
+              final_coords = []
               for i in ii_list:
+                key_value = {}
                 result = np.where(canvas == i)
-                out = [x for xs in zip(result[0], result[1]) for x in xs]
-                print(out)
+                # print("Life kharab hai \n\n\n",type(result[0][0]))
+                out = []
+                for me in result:
+                    out1 = []
+                    for me1 in me:
+                        out1.append(int(me1))
+                    out.append(out1)
+                result = out
+                out = []
+                
+                out = [x for xs in zip(result[1], result[0]) for x in xs]
+                label = i
+                closed = True
+                stroke = "#FF5733"
+                fill = "#FF5733"
+                key = i
+                key_value["points"] = out
+                key_value["label"] = label
+                key_value["closed"] = closed
+                key_value["stroke"] = stroke
+                key_value["fill"] = fill
+                key_value["key"] = key
+                final_coords.append(key_value)
+                print(i, out)
               images.append(canvas)
               sza = 10
               plt.figure(num=None, figsize=(sza, sza))
@@ -365,6 +390,8 @@ def masked_call(object,bb):
               plt.imshow(label_2_image(canvas))
               plt.savefig('masked.png')
               print(r)
+    print(final_coords)
+    return final_coords
 
 #%%
 # masked_call()

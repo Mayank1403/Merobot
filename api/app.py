@@ -30,6 +30,7 @@ default_size = 24
 rectangle_coords1 = []
 labels_used = []
 remaining_parts = []
+masked_coord1 = []
 @app.route("/")
 def home():
   return "<h1>Server Working</h1>"  
@@ -57,14 +58,15 @@ def clvec_generator(object):
 def send_images(object):
     object = object.lower()
     global rectangle_coords1
+    global masked_coord1
     global labels_used
     print(object)
     labels = labels_array_generator(object)
     labels = labels.reshape(1,24,1)
     rectangle_coords1, labels_used , bb= rectangle_call(object,labels,ind = 2)
     bb =  np.asarray(bb)
-    maskedData = masked_call(object,bb)
-    print("maskedData",maskedData)
+    masked_coord1 = masked_call(object,bb)
+    print("maskedData",masked_coord1)
     print(bb.shape, type(bb))
     print(rectangle_coords1)
     global remaing_parts
@@ -137,9 +139,9 @@ def add_coords(process):
         print(rectangle_coords1)
         return{'lists': rectangle_coords1}
     elif(process.lower()=="add"):
-        return{'lists': []}
+        return{'lists': masked_coord1}
     elif(process.lower()=="remove"):
-        return{'lists': []}
+        return{'lists': masked_coord1}
 
 if(__name__ == '__main__'):
     app.run(debug=True)
