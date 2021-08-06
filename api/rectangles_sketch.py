@@ -934,7 +934,7 @@ def rectangle_call(object_name,labelss,ind):
               class_vec_sketch.append(classix)
               label_vec_sketch.append(pos)
               print("Labels",label_vec_sketch)
-              bbx_gen_sketch.append(((bbx)*pos)*canvas_size )
+              bbx_gen_sketch.append(((bbx )*pos)*canvas_size )
               print(bbx_gen_sketch)
               generated_image, coords, colors_out= plot_bbx(arrangement(((bbx)*pos)*canvas_size, object_name))
               sza = 10

@@ -34,11 +34,11 @@ def bounder(img):
 #%%
 def add_images(canvas,img, ii):
     result = np.where(img!=0)
-    print("MAAL", result)
+    # print("MAAL", result)
     listOfCoordinates = list(zip(result[0], result[1]))
-    print("List of Coordinates yhii hai \n\n\n\n", listOfCoordinates)
+    # print("List of Coordinates yhii hai \n\n\n\n", listOfCoordinates)
     for cord in listOfCoordinates:
-        print('MAAL ke Andar ka MAAL', cord, canvas[cord])
+        # print('MAAL ke Andar ka MAAL', cord, canvas[cord])
         canvas[cord] = ii
     return canvas
 
@@ -346,7 +346,10 @@ def masked_call(object,bb):
                           canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ] = add_images(canvas[ int(y_min):int(y_max), int(x_min):int(x_max)  ],cv2.resize(bounder(np.squeeze(mmx[i]))*(i+1), (y,x)), i+1)
               except:
                   print('no problem')
-            #   print('CANVAS\n',canvas.shape)
+              print('CANVAS\n',canvas.shape)
+              print('CANVAS\n',canvas)
+              print(np.array(np.where(canvas == np.max(canvas))))
+              print(np.max(canvas))
               images.append(canvas)
             #   print('\n\n\n\n\n')
             #   for i in canvas:
