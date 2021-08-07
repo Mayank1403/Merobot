@@ -979,7 +979,9 @@ def rectangle_call(object_name,labelss,ind):
         height = abs(coords[i][1] - coords[i][3])
         width = abs(coords[i][0] - coords[i][2])
         strokeWidth = 5
-        key = i
+        position = keys.index(labels_text[i])
+        key = values[position]
+        # print("Oye yahi toh key haiiiii\n\n", key)
         stroke = str(rgb_to_hex(tuple(colors_out[i].astype(int))))
         label = labels_text[i]
         x = coords[i][0]
@@ -994,3 +996,5 @@ def rectangle_call(object_name,labelss,ind):
         key_value['label'] = label
         out.append(key_value)
   return out, labels_text, bbx_gen_sketch
+
+# %%
