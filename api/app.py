@@ -180,6 +180,7 @@ def update_coords(process):
             np.array(rectangle_coords1)
             print("This is the call",rectangle_coords1)
             #call the main model wala thing
+        return '1' 
 
 if(__name__ == '__main__'):
     app.run(debug=True)

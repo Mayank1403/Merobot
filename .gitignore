@@ -26,3 +26,4 @@ yarn-error.log*
 /api/__pycache__
 /api/rectangle.png
 /api/masked.png
+/api/output_main.txt
