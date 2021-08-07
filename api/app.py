@@ -157,7 +157,7 @@ def update_coords(process):
         label_key = all_parts[data['label_name']]
         labels[label_key] = np.array([1.0]).astype(float)
         print(label_key)
-        return '1'
+        return '1' 
 
 if(__name__ == '__main__'):
     app.run(debug=True)
