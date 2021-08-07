@@ -118,7 +118,6 @@ for i in part_labels:
     object_list.update({i : len(part_labels[i])})
 #%%
 object_names = ['cow','sheep','bird','person','cat','dog','horse','aeroplane','motorbike','bicycle']#,'sheep','bird','person','cat','dog','horse','cow']
-
 #%%
 def label_2_image(img):
   rgb_img = np.zeros((img.shape[0],img.shape[1], 3)) 

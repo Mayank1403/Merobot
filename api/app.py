@@ -1,7 +1,7 @@
 #%%
 from flask.json import jsonify
 from masked_sketch import masked_call
-from flask import Flask, send_file
+from flask import Flask, request
 from flask_cors import CORS
 import random
 import numpy as np
@@ -21,16 +21,17 @@ def get_response_image(image_path):
     pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
     encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
     return encoded_img
-
 # %%
 app = Flask(__name__)
 CORS(app)
 default_size = 24
 
+object_name = ''
 rectangle_coords1 = []
 labels_used = []
 remaining_parts = []
 masked_coord1 = []
+labels= []
 @app.route("/")
 def home():
   return "<h1>Server Working</h1>"  
@@ -38,6 +39,7 @@ def home():
 def labels_array_generator(object):
   list_size = object_list[object]
   diff = default_size - list_size
+  global labels
   labels = [np.array([random.randint(0, 1)]).astype(float) for i in range(list_size)]
   for _ in range(diff):
     labels.append(np.array([0.0]).astype(float))
@@ -57,6 +59,8 @@ def clvec_generator(object):
 @app.route('/images/<string:object>', methods=['GET'])
 def send_images(object):
     object = object.lower()
+    global object_name
+    object_name = object
     global rectangle_coords1
     global masked_coord1
     global labels_used
@@ -74,9 +78,6 @@ def send_images(object):
         return{
             'images': [
                 'https://lh3.googleusercontent.com/_uruT_g84q8u7KxX3n072XAkhAct_9qFzQxgg5JS5ZIWdE0PZZQvd4PftgHn2Hr69kUEhvZdkQatk__l08Sjq3Hg3SZiKVIhVKL6p5vteZRp4dI6SLE_MOHEkT7VMgHdYQXKDSZDgw=w2400',
-                # # 'https://lh3.googleusercontent.com/9z4NI-7aFTKmCQRBeaLSjuf8KT18wUbGmrtOJkjy1yoZ0nAeYWpixWflfplkAOA8TJDKYhgvQ-N23_orO8a-7ABrjJoO7wdx-6qT_jl2ELv6a7Y-3Km9z_06kQqqnM6iczNu-9yhnQ=w2400',
-                # jsonify(send_file('rectangle.png',as_attachment=True,attachment_filename='rectangle.png',mimetype='image/png')),
-                # 'https://lh3.googleusercontent.com/YoTNC0K8dgfT-d16mwuGdMqFhdiUrkw2F9YO7PCy500M3NIUB2ih0RSGeC3kANSeeqr0G7wmoqmlxC6bi6NCOpAJb3OLvAEqOBJQparfEbY4YJH8D2nC9DgORjT3oN60mkxER4sMuQ=w2400',
                 "data:image/png;base64, " + get_response_image('rectangle.png'),
                 "data:image/png;base64, " + get_response_image('masked.png'),
             ],
@@ -100,6 +101,10 @@ def send_images(object):
 #get list of all parts
 def get_all_parts(object):
   all_parts = list(part_labels[object].keys())
+  return all_parts
+
+def get_all_parts_dictionary(object):
+  all_parts = part_labels[object]
   return all_parts
 
 #get all the parts that are not included in the image
@@ -130,7 +135,7 @@ def send_process(process):
         }
 
 
-@app.route('/process/<string:process>', methods=['GET'])
+@app.route('/process/<string:process>', methods=['POST'])
 def add_coords(process):
     if(process.lower()=="update"):
         print(rectangle_coords1)
@@ -139,6 +144,20 @@ def add_coords(process):
         return{'lists': masked_coord1}
     elif(process.lower()=="remove"):
         return{'lists': masked_coord1}
+
+@app.route('/<string:process>',methods=['POST'])
+def update_coords(process):
+    if(process.lower()=="add"):
+        global labels
+        object_name = 'cow'
+        data = request.get_json(force=True)
+        print(data)
+        all_parts = get_all_parts_dictionary(object_name)
+        print(all_parts)
+        label_key = all_parts[data['label_name']]
+        labels[label_key] = np.array([1.0]).astype(float)
+        print(label_key)
+        return '1'
 
 if(__name__ == '__main__'):
     app.run(debug=True)
