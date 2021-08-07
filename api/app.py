@@ -149,15 +149,39 @@ def add_coords(process):
 def update_coords(process):
     if(process.lower()=="add"):
         global labels
-        object_name = 'cow'
+        # object_name = 'person'
+        global object_name
+        global rectangle_coords1
+        global masked_coord1
+        global labels_used
         data = request.get_json(force=True)
         print(data)
         all_parts = get_all_parts_dictionary(object_name)
         print(all_parts)
+        # print("Purana",labels)
         label_key = all_parts[data['label_name']]
-        labels[label_key] = np.array([1.0]).astype(float)
+        labels[label_key-1] = np.array([1.0]).astype(float)
+        labels = labels.reshape(1,24,1)
+        rectangle_coords1, labels_used , bb= rectangle_call(object,labels,ind = 2)
+        bb =  np.asarray(bb)
+        # print("Naya",labels)
         print(label_key)
         return '1' 
 
 if(__name__ == '__main__'):
     app.run(debug=True)
+
+
+
+# global rectangle_coords1
+# rectangle_coords1 = []
+# for i in dicto:
+#     x = i['x']
+#     y = i['y']
+#     x1 = x + i['width']
+#     y1 = y + i['height']
+#     list1 = np.array([x, y, x1, y1])
+#     rectangle_coords1.append(list1)
+#     np.array(rectangle_coords1)
+# #call the main model wala thing
+# %%
