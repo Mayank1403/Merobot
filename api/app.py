@@ -167,21 +167,23 @@ def update_coords(process):
         # print("Naya",labels)
         print(label_key)
         return '1'
+    if(process.lower()=="update"):
+        global rectangle_coords1
+        rectangle_coords1 = []
+        for i in dicto:
+            x = i['x']
+            y = i['y']
+            x1 = x + i['width']
+            y1 = y + i['height']
+            list1 = np.array([x, y, x1, y1])
+            rectangle_coords1.append(list1)
+            np.array(rectangle_coords1)
 
 if(__name__ == '__main__'):
     app.run(debug=True)
 
 
 
-# global rectangle_coords1
-# rectangle_coords1 = []
-# for i in dicto:
-#     x = i['x']
-#     y = i['y']
-#     x1 = x + i['width']
-#     y1 = y + i['height']
-#     list1 = np.array([x, y, x1, y1])
-#     rectangle_coords1.append(list1)
-#     np.array(rectangle_coords1)
+
 # #call the main model wala thing
 # %%
