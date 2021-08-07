@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default function Try() {
 
-    axios.post('http://127.0.0.1:5000/add',{label_name: 'head'})
+    axios.post('http://127.0.0.1:5000/update',{label_name: 'head', cords: []})
 
     return (
         <div>

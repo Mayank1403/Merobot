@@ -147,13 +147,13 @@ def add_coords(process):
 
 @app.route('/<string:process>',methods=['POST'])
 def update_coords(process):
+    global labels
+    # object_name = 'person'
+    global object_name
+    global rectangle_coords1
+    global masked_coord1
+    global labels_used
     if(process.lower()=="add"):
-        global labels
-        # object_name = 'person'
-        global object_name
-        global rectangle_coords1
-        global masked_coord1
-        global labels_used
         data = request.get_json(force=True)
         print(data)
         all_parts = get_all_parts_dictionary(object_name)
@@ -168,9 +168,9 @@ def update_coords(process):
         print(label_key)
         return '1'
     if(process.lower()=="update"):
-        global rectangle_coords1
         rectangle_coords1 = []
-        for i in dicto:
+        data = request.get_json(force=True)
+        for i in data:
             x = i['x']
             y = i['y']
             x1 = x + i['width']
@@ -178,6 +178,8 @@ def update_coords(process):
             list1 = np.array([x, y, x1, y1])
             rectangle_coords1.append(list1)
             np.array(rectangle_coords1)
+            print("This is the call",rectangle_coords1)
+            #call the main model wala thing
 
 if(__name__ == '__main__'):
     app.run(debug=True)
@@ -185,5 +187,4 @@ if(__name__ == '__main__'):
 
 
 
-# #call the main model wala thing
 # %%
