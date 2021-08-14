@@ -78,7 +78,7 @@ export default function Product() {
             process.toLowerCase() === "add" ||
             process.toLowerCase() === "remove"
           )
-            dispatch(setLines(res.data.lists));
+          dispatch(setLines(res.data.lists));
           setModal(modal);
         })
         .catch((err) => console.log(err));

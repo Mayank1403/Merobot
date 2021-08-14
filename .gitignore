@@ -8,6 +8,7 @@
 /Merobot
 # testing
 /coverage
+/api/code
 
 # production
 /build

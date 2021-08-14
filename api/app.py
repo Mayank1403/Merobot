@@ -135,7 +135,7 @@ def send_process(process):
         }
 
 
-@app.route('/process/<string:process>', methods=['POST'])
+@app.route('/process/<string:process>', methods=['GET'])
 def add_coords(process):
     if(process.lower()=="update"):
         print(rectangle_coords1)
