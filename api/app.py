@@ -154,6 +154,7 @@ def update_coords(process):
     global masked_coord1
     global labels_used
     if(process.lower()=="add"):
+        print("rectangle_coords12342242", rectangle_coords1)
         data = request.get_json(force=True)
         print(data)
         all_parts = get_all_parts_dictionary(object_name)
@@ -161,31 +162,31 @@ def update_coords(process):
         # print("Purana",labels)
         label_key = all_parts[data['label_name']]
         labels[label_key-1] = np.array([1.0]).astype(float)
-        labels = labels.reshape(1,24,1)
-        rectangle_coords1, labels_used , bb= rectangle_call(object,labels,ind = 2)
+        labels = np.array(labels).reshape(1,24,1)
+        rectangle_coords1, labels_used , bb= rectangle_call(object_name,labels,ind = 2)
         bb =  np.asarray(bb)
         # print("Naya",labels)
         print(label_key)
         return '1'
     if(process.lower()=="update"):
-        rectangle_coords1 = []
         data = request.get_json(force=True)
+        rectangle_coords1 = data
+        coords_update = np.zeros((1, 24, 4))
         for i in data:
             x = i['x']
             y = i['y']
             x1 = x + i['width']
             y1 = y + i['height']
             list1 = np.array([x, y, x1, y1])
-            rectangle_coords1.append(list1)
+            coords_update[0][i['key']-1] = list1
             np.array(rectangle_coords1)
-            print("This is the call",rectangle_coords1)
-            #call the main model wala thing
+            print("This is the call",coords_update)
+        #call the main model wala thing
+        masked_coord1 = masked_call(object_name,coords_update)
+        print("maskedData",masked_coord1)
+        print(rectangle_coords1)
+        get_remaining_parts(object_name)
         return '1' 
 
 if(__name__ == '__main__'):
     app.run(debug=True)
-
-
-
-
-# %%
