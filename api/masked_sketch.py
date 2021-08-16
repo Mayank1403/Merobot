@@ -363,7 +363,7 @@ def masked_call(object,bb):
               ii_list = []
               bb_in, mmx = arrangement(b_in[j], mx[0][j], class_dic[np.argmax(c_in)])
               try:
-                  for i in range(24):
+                  for i in range(object_list[object]):
                       x_min, y_min, x_max, y_max = bb_in[i]
                       if x_max-x_min > 0 and y_max-y_min>0:
                           x, y = canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ].shape
@@ -373,6 +373,7 @@ def masked_call(object,bb):
                   print('no problem')
               print("--------------------------------------------")
               final_coords = []
+              print("Object List yo yoy o", object_list)
               for i in ii_list:
                 key_value = {}
                 result = np.where(canvas == i)
@@ -385,6 +386,7 @@ def masked_call(object,bb):
                     out.append(out1)
                 result = out
                 out = []
+                print("I is printed here", i)
                 # color = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
                 # labels_text = []
                 labels_main = part_labels[object]
