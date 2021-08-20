@@ -8,6 +8,8 @@ import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
 
 const Chat = ({model}) => {
   const Data = useSelector((state) => state.Chat);
+  const RectangleData = useSelector((state) => state.Rectangles)
+  const LinesData = useSelector((state) => state.Lines)
   const chatRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -16,8 +18,15 @@ const Chat = ({model}) => {
     setModel(model)
   }, [model])
 
-  const handleModalClose = () => {
+  const handleModalClose = (model) => {
     dispatch(addUserChat(STEP, "Changes"));
+    if(model === "rectangle"){
+      axios.post('http://127.0.0.1:5000/update', RectangleData);
+    }
+    else{
+      axios.post('http://127.0.0.1:5000/add', LinesData);//aaltu faltu kaam karta hai
+    }
+    
     setModel("");
   };
 
