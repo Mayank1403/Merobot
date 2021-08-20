@@ -154,6 +154,7 @@ def update_coords(process):
     global masked_coord1
     global labels_used
     if(process.lower()=="add"):
+        print("Running THIS AGAIN")
         print("rectangle_coords12342242", rectangle_coords1)
         data = request.get_json(force=True)
         print(data)

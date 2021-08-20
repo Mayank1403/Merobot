@@ -8,6 +8,7 @@ export default function RectangleCanvasModal(props) {
   const rectangles = useSelector((state) => state.Rectangles.rect);
   const img1 = useSelector((state) => state.Images.img1);
   const img3 = useSelector((state) => state.Images.img3);
+  const process = useSelector((state) => state.Images.process);
   const [color, setColor] = useState("#000000");
   const [selection, setSelection] = useState('rectangle');
   return (
@@ -47,7 +48,7 @@ export default function RectangleCanvasModal(props) {
               </tr>
             ))}
           </table>
-          <div className={styles.Button} onClick={props.isDone}>Done</div>
+          <div className={styles.Button} onClick={() => props.isDone(process)}>Done</div>
         </div>
       </div>
     </div>

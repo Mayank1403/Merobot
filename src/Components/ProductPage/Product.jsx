@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { USER, addUserChat, BOT, addBotChat } from "../../Redux/Ducks/Chat";
 import { setRectangles } from "../../Redux/Ducks/Rectangles";
 import { setLines } from "../../Redux/Ducks/Lines";
+import { setReduxProcess, setReduxAddPart } from "../../Redux/Ducks/Images";
 
 import axios from "axios";
 import { storeImages } from "../../Redux/Ducks/Images";
@@ -46,6 +47,7 @@ export default function Product() {
   const handleSetProcess = () => {
     setModal("");
     setProcess(text);
+    dispatch(setReduxProcess(text));
     if (text === "") {
       alert("Invalid Input");
     } else {
@@ -83,6 +85,7 @@ export default function Product() {
         })
         .catch((err) => console.log(err));
       dispatch(addUserChat(USER, text));
+      dispatch(setReduxAddPart(text));
       setProcess("");
     }
     setText("");

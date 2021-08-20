@@ -4,29 +4,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUserChat, BOT, STEP, USER } from "../../../Redux/Ducks/Chat";
 import RectangleCanvasModal from "../../RectangleCanvasModal/RectangleCanvasModal";
 import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
+import axios from "axios";
 
-
-const Chat = ({model}) => {
+const Chat = ({ model }) => {
   const Data = useSelector((state) => state.Chat);
-  const RectangleData = useSelector((state) => state.Rectangles)
-  const LinesData = useSelector((state) => state.Lines)
+  const RectangleData = useSelector((state) => state.Rectangles);
+  const add_part = useSelector((state) => state.Images.add_part);
+  const process = useSelector((state) => state.Images.process);
   const chatRef = useRef(null);
   const dispatch = useDispatch();
 
   const [openModel, setModel] = useState("");
   useEffect(() => {
-    setModel(model)
-  }, [model])
+    setModel(model);
+  }, [model]);
 
-  const handleModalClose = (model) => {
+  const handleModalClose = () => {
     dispatch(addUserChat(STEP, "Changes"));
-    if(model === "rectangle"){
-      axios.post('http://127.0.0.1:5000/update', RectangleData);
+    console.log(process)
+    if (process === "update") {
+      axios.post("http://127.0.0.1:5000/update", RectangleData);
+    } else if (process === "Add") {
+      axios.post("http://127.0.0.1:5000/add", { label_name: add_part }); //aaltu faltu kaam karta hai
     }
-    else{
-      axios.post('http://127.0.0.1:5000/add', LinesData);//aaltu faltu kaam karta hai
-    }
-    
     setModel("");
   };
 
@@ -44,11 +44,7 @@ const Chat = ({model}) => {
               {info.hasImage ? (
                 <div className={styles.imageDiv}>
                   {info.images.map((data, idx) => (
-                    <img
-                      src={data}
-                      alt="produced images"
-                      key={idx}
-                    />
+                    <img src={data} alt="produced images" key={idx} />
                   ))}
                 </div>
               ) : (
@@ -80,6 +76,6 @@ const Chat = ({model}) => {
       )}
     </div>
   );
-}
+};
 
-export default Chat
+export default Chat;
