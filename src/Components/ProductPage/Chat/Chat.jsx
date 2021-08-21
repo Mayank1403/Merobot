@@ -22,7 +22,7 @@ const Chat = ({ model }) => {
   const handleModalClose = () => {
     dispatch(addUserChat(STEP, "Changes"));
     console.log(process)
-    if (process === "update") {
+    if (process === "Update") {
       axios.post("http://127.0.0.1:5000/update", RectangleData);
     } else if (process === "Add") {
       axios.post("http://127.0.0.1:5000/add", { label_name: add_part }); //aaltu faltu kaam karta hai

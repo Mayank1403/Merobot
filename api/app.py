@@ -113,10 +113,12 @@ def get_remaining_parts(object):
     global remaining_parts
     for part in all_parts:
         if part not in labels_used:
+            print("Part isssss", part)
             remaining_parts.append(part)
 
 @app.route('/open/<string:process>', methods=['GET'])
 def send_process(process):
+    global remaining_parts
     pro = process.lower()
     if(pro=='add'):
         return{
@@ -155,6 +157,21 @@ def update_coords(process):
     global labels_used
     if(process.lower()=="add"):
         print("Running THIS AGAIN")
+        # print("rectangle_coords12342242", rectangle_coords1)
+        data = request.get_json(force=True)
+        # print(data)
+        all_parts = get_all_parts_dictionary(object_name)
+        # print(all_parts)
+        print("Purana",labels)
+        label_key = all_parts[data['label_name']]
+        labels[label_key-1] = np.array([1.0]).astype(float)
+        labels = np.array(labels).reshape(1,24,1)
+        rectangle_coords1, labels_used , bb= rectangle_call(object_name,labels,ind = 2)
+        bb =  np.asarray(bb)
+        print("Naya",labels)
+        # print(label_key)
+    if(process.lower()=="remove"):
+        print("Running THIS AGAIN")
         print("rectangle_coords12342242", rectangle_coords1)
         data = request.get_json(force=True)
         print(data)
@@ -162,18 +179,19 @@ def update_coords(process):
         print(all_parts)
         # print("Purana",labels)
         label_key = all_parts[data['label_name']]
-        labels[label_key-1] = np.array([1.0]).astype(float)
+        labels[label_key-1] = np.array([0.0]).astype(float)
         labels = np.array(labels).reshape(1,24,1)
         rectangle_coords1, labels_used , bb= rectangle_call(object_name,labels,ind = 2)
         bb =  np.asarray(bb)
         # print("Naya",labels)
         print(label_key)
-        return '1'
     if(process.lower()=="update"):
         data = request.get_json(force=True)
         rectangle_coords1 = data
         coords_update = np.zeros((1, 24, 4))
-        for i in data:
+        print("Data hai yeh mera", data['rect'][0])
+        for i in data['rect']:
+            # print("Yahi hai i",i)
             x = i['x']
             y = i['y']
             x1 = x + i['width']
@@ -187,7 +205,13 @@ def update_coords(process):
         print("maskedData",masked_coord1)
         print(rectangle_coords1)
         get_remaining_parts(object_name)
-        return '1' 
+    return{
+        'images': [
+            'https://lh3.googleusercontent.com/_uruT_g84q8u7KxX3n072XAkhAct_9qFzQxgg5JS5ZIWdE0PZZQvd4PftgHn2Hr69kUEhvZdkQatk__l08Sjq3Hg3SZiKVIhVKL6p5vteZRp4dI6SLE_MOHEkT7VMgHdYQXKDSZDgw=w2400',
+            "data:image/png;base64, " + get_response_image('rectangle.png'),
+            "data:image/png;base64, " + get_response_image('masked.png'),
+        ],
+    }
 
 if(__name__ == '__main__'):
     app.run(debug=True)
