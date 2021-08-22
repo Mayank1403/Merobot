@@ -1,9 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Chat.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addUserChat, BOT, STEP, USER } from "../../../Redux/Ducks/Chat";
+import {
+  addUserChat,
+  BOT,
+  STEP,
+  USER,
+  addBotChat,
+} from "../../../Redux/Ducks/Chat";
 import RectangleCanvasModal from "../../RectangleCanvasModal/RectangleCanvasModal";
 import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
+import { storeImages } from "../../../Redux/Ducks/Images";
 import axios from "axios";
 
 const Chat = ({ model }) => {
@@ -21,11 +28,42 @@ const Chat = ({ model }) => {
 
   const handleModalClose = () => {
     dispatch(addUserChat(STEP, "Changes"));
-    console.log(process)
-    if (process === "update") {
-      axios.post("http://127.0.0.1:5000/update", RectangleData);
+    console.log(process);
+    if (process === "Update") {
+      axios.post("http://127.0.0.1:5000/update", RectangleData).then((res) => {
+        dispatch(storeImages(res.data.images));
+        const data = {
+          sender: BOT,
+          hasImage: true,
+          images: res.data.images,
+        };
+        dispatch(addBotChat(data));
+      });
     } else if (process === "Add") {
-      axios.post("http://127.0.0.1:5000/add", { label_name: add_part }); //aaltu faltu kaam karta hai
+      axios
+        .post("http://127.0.0.1:5000/add", { label_name: add_part })
+        .then((res) => {
+          dispatch(storeImages(res.data.images));
+          const data = {
+            sender: BOT,
+            hasImage: true,
+            images: res.data.images,
+          };
+          dispatch(addBotChat(data));
+        }); //aaltu faltu kaam karta hai
+    }
+    else if (process === "Remove") {
+      axios
+        .post("http://127.0.0.1:5000/remove", { label_name: add_part })
+        .then((res) => {
+          dispatch(storeImages(res.data.images));
+          const data = {
+            sender: BOT,
+            hasImage: true,
+            images: res.data.images,
+          };
+          dispatch(addBotChat(data));
+        }); //aaltu faltu kaam karta hai
     }
     setModel("");
   };
