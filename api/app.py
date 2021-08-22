@@ -154,20 +154,21 @@ def update_coords(process):
     global masked_coord1
     global labels_used
     if(process.lower()=="add"):
-        print("Running THIS AGAIN")
-        print("rectangle_coords12342242", rectangle_coords1)
+        # print("Running THIS AGAIN")
+        # print("rectangle_coords12342242", rectangle_coords1)
         data = request.get_json(force=True)
         print(data)
         all_parts = get_all_parts_dictionary(object_name)
         print(all_parts)
         # print("Purana",labels)
+        
         label_key = all_parts[data['label_name']]
         labels[label_key-1] = np.array([1.0]).astype(float)
         labels = np.array(labels).reshape(1,24,1)
         rectangle_coords1, labels_used , bb= rectangle_call(object_name,labels,ind = 2)
         bb =  np.asarray(bb)
         # print("Naya",labels)
-        print(label_key)
+        # print(label_key)
         return '1'
     if(process.lower()=="update"):
         data = request.get_json(force=True)
