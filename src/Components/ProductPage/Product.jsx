@@ -108,7 +108,7 @@ export default function Product() {
     <div className={styles.Container}>
       <div className={styles.chatScreen}>
         <Chat model={sendModal} />
-        {!loader && <Loader/>}
+        {loader && <Loader/>}
       </div>
       <div className={styles.inputContainer}>
         <div className={styles.inputField}>
