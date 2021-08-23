@@ -5,6 +5,8 @@ import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 // import { createFilterOptions } from "@material-ui/lab/Autocomplete";
 
+import Loader from "../Loader/Loader";
+
 import Chat from "./Chat/Chat";
 import { useDispatch } from "react-redux";
 import { USER, addUserChat, BOT, addBotChat } from "../../Redux/Ducks/Chat";
@@ -24,9 +26,11 @@ export default function Product() {
   const [process, setProcess] = useState("");
   const [modal, getModal] = useState("");
   const [sendModal, setModal] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const handleSetObjectApiCall = () => {
     setObject(text);
+    setLoader(true);
     dispatch(addUserChat(USER, text));
     axios
       .get(`http://127.0.0.1:5000/images/${text}`)
@@ -40,6 +44,7 @@ export default function Product() {
         };
         setProcessList(res.data.process);
         dispatch(addBotChat(data));
+        setLoader(false);
       })
       .catch((err) => console.log(err));
   };
@@ -103,6 +108,7 @@ export default function Product() {
     <div className={styles.Container}>
       <div className={styles.chatScreen}>
         <Chat model={sendModal} />
+        {!loader && <Loader/>}
       </div>
       <div className={styles.inputContainer}>
         <div className={styles.inputField}>
