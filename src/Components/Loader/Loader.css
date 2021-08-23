@@ -1,10 +1,38 @@
 .loader{
-    
+    display: flex;
+    background-color: antiquewhite;
+    width: 5rem;
+    border-radius: 25px 25px 25px 5px;
+    padding: 1rem;
 }
 .loader__circle{
     height: 40px;
     width: 40px;
     border-radius: 50%;
     margin: 0.1rem;
+    background-color: #333;
     animation: scaling 2.5s ease-in-out infinite;
+}
+@keyframes scaling{
+    0%, 100%{
+        transform: scale(0.2);
+    }
+    50%{
+        transform: scale(1);
+    }
+}
+.loader__circle:nth-child(0){
+    animation-delay: 0s;
+}
+.loader__circle:nth-child(1){
+    animation-delay: 0.2s;
+}
+.loader__circle:nth-child(2){
+    animation-delay: 0.4s;
+}
+.loader__circle:nth-child(3){
+    animation-delay: 0.6s;
+}
+.loader__circle:nth-child(4){
+    animation-delay: 0.8s;
 }
