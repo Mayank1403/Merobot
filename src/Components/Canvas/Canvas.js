@@ -190,17 +190,24 @@ const Canvas = (props) => {
           "Please enter a label for the component",
           "label"
         );
-        newLine[0].points.push(x);
-        newLine[0].points.push(y);
-        const newToAdd = {
-          points: newLine[0].points,
-          label: input_label,
-          closed: close,
-          stroke: fillColor,
-          fill: fillColor,
-          key: lines.length + 1,
-        };
-        items.push(newToAdd);
+        console.log(typeof(input_label))
+        if((input_label === "label") || (input_label === null)){
+          alert("Correct Label Name was not provided.");
+          return;
+        }
+        else{
+          newLine[0].points.push(x);
+          newLine[0].points.push(y);
+          const newToAdd = {
+            points: newLine[0].points,
+            label: input_label,
+            closed: close,
+            stroke: fillColor,
+            fill: fillColor,
+            key: lines.length + 1,
+          };
+          items.push(newToAdd);
+        }
       }
 
       setNewLine([]);

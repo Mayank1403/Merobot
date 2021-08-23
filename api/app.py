@@ -215,6 +215,7 @@ def update_coords(process):
             "data:image/png;base64, " + get_response_image('rectangle.png'),
             "data:image/png;base64, " + get_response_image('masked.png'),
         ],
+        # 'lists': rectangle_coords1
     }
 
 if(__name__ == '__main__'):

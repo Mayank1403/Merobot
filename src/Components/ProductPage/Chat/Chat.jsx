@@ -50,7 +50,7 @@ const Chat = ({ model }) => {
             images: res.data.images,
           };
           dispatch(addBotChat(data));
-        }); //aaltu faltu kaam karta hai
+        });
     }
     else if (process === "Remove") {
       axios

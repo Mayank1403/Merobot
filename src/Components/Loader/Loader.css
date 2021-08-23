@@ -1,0 +1,10 @@
+.loader{
+    
+}
+.loader__circle{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin: 0.1rem;
+    animation: scaling 2.5s ease-in-out infinite;
+}

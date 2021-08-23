@@ -5,6 +5,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
   const shapeRef = useRef();
   const trRef = useRef();
 
+
   useEffect(() => {
     if (isSelected) {
       // we need to attach transformer manually
