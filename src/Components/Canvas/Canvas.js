@@ -15,6 +15,7 @@ const Canvas = (props) => {
   
   const dispatch = useDispatch();
 
+  const part_added = useSelector((state) => state.Images.add_part)
   // const [rectangles, setRectangles] = useState([]);
   //Rectangle variables
   const rectangles = useSelector((state) => state.Rectangles.rect); //main array of objects
@@ -186,32 +187,22 @@ const Canvas = (props) => {
       }
       const items = lines.slice();
       if (close) {
-        let input_label = prompt(
-          "Please enter a label for the component",
-          "label"
-        );
-        console.log(typeof(input_label))
-        if((input_label === "label") || (input_label === null)){
-          alert("Correct Label Name was not provided.");
-          return;
-        }
-        else{
           newLine[0].points.push(x);
           newLine[0].points.push(y);
           const newToAdd = {
             points: newLine[0].points,
-            label: input_label,
+            label: part_added,
             closed: close,
             stroke: fillColor,
             fill: fillColor,
             key: lines.length + 1,
           };
           items.push(newToAdd);
-        }
       }
 
       setNewLine([]);
       dispatch(setLines(items));
+      alert(part_added+" has been added.")
     }
   };
   // console.log(lines)

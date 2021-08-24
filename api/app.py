@@ -5,6 +5,8 @@ from flask import Flask, request
 from flask_cors import CORS
 import random
 import numpy as np
+import cv2
+import matplotlib.pyplot as plt
 
 from relations import part_labels
 from details import add_body_parts, remove_body_parts, process
@@ -21,6 +23,32 @@ def get_response_image(image_path):
     pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
     encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
     return encoded_img
+
+colors = [(1, 0, 0),
+          (0.737, 0.561, 0.561),
+          (0.255, 0.412, 0.882),
+          (0.545, 0.271, 0.0745),
+          (0.98, 0.502, 0.447),
+          (0.98, 0.643, 0.376),
+          (0.18, 0.545, 0.341),
+          (0.502, 0, 0.502),
+          (0.627, 0.322, 0.176),
+          (0.753, 0.753, 0.753),
+          (0.529, 0.808, 0.922),
+          (0.416, 0.353, 0.804),
+          (0.439, 0.502, 0.565),
+          (0.784, 0.302, 0.565),
+          (0.867, 0.627, 0.867),
+          (0, 1, 0.498),
+          (0.275, 0.51, 0.706),
+          (0.824, 0.706, 0.549),
+          (0, 0.502, 0.502),
+          (0.847, 0.749, 0.847),
+          (1, 0.388, 0.278),
+          (0.251, 0.878, 0.816),
+          (0.933, 0.51, 0.933),
+          (0.961, 0.871, 0.702)]
+colors = (np.asarray(colors)*255)
 # %%
 app = Flask(__name__)
 CORS(app)
@@ -55,6 +83,16 @@ def clvec_generator(object):
       clvec.append(np.asarray([1.0]).astype(float))
   return np.asarray(clvec)
 
+def new_rectangle_image(bbx):
+    canvas = np.ones((550, 550,3), np.uint8) * 255
+    for i, coords in enumerate(bbx[0]):
+        print("Coords this is haha", coords)
+        x_minp, y_minp,x_maxp , y_maxp= coords
+        cv2.rectangle(canvas, (int(x_minp), int(y_minp)), (int(x_maxp) , int(y_maxp) ), colors[i], 6)
+    plt.figure(num=None, figsize=(10, 10))
+    plt.axis('off')
+    plt.imshow(canvas)
+    plt.savefig('rectangle.png')
 
 @app.route('/images/<string:object>', methods=['GET'])
 def send_images(object):
@@ -204,6 +242,12 @@ def update_coords(process):
             np.array(rectangle_coords1)
             print("This is the call",coords_update)
         #call the main model wala thing
+        new_rectangle_image(coords_update)
+        # plt.figure(num=None, figsize=(sza, sza))
+        # plt.axis('off')
+        # plt.imshow(generated_image)
+              
+        # plt.savefig('rectangle.png')
         masked_coord1 = masked_call(object_name,coords_update)
         print("maskedData",masked_coord1)
         print(rectangle_coords1)
@@ -220,3 +264,6 @@ def update_coords(process):
 
 if(__name__ == '__main__'):
     app.run(debug=True)
+
+# %%
+
