@@ -107,6 +107,7 @@ def send_images(object):
     labels = labels.reshape(1,24,1)
     rectangle_coords1, labels_used , bb= rectangle_call(object,labels,ind = 2)
     bb =  np.asarray(bb)
+    print("Numy BBX GENNNNN", bb)
     masked_coord1 = masked_call(object,bb)
     print("maskedData",masked_coord1)
     print(bb.shape, type(bb))

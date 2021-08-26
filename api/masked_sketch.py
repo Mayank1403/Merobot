@@ -97,7 +97,7 @@ def arrangement(a, b, object_name):
         p = [22,21,23,10,11,18,13,12,14,16,15,17,8,9,0,7,3,4,5,6,19,20,1,2 ]
     else:
       print("error")
-    return a[p], b[p]
+    return a[p], b[p], p
 
 #%%
 bird_labels = {'head':1, 'leye':2, 'reye':3, 'beak':4, 'torso':5, 'neck':6, 'lwing':7, 'rwing':8, 'lleg':9, 'lfoot':10, 'rleg':11, 'rfoot':12, 'tail':13}
@@ -346,6 +346,7 @@ def masked_call(object,bb):
     sess.run(tf.global_variables_initializer())
     saver.restore(sess, "./data/save_bitmaps_colab_new.ckpt")
     start = 0
+    print("BBX GENNNNN in masked call", bb)
     for ind_ in range(len(bb)//batch_size):
 
       start_idx = ind_*batch_size
@@ -357,23 +358,40 @@ def masked_call(object,bb):
           np.random.seed(2)
           z = np.random.normal(0,1,[batch_size, 64])
           mx= sess.run([pred_masks],feed_dict= {z_latent:z,cond_bbxs: b_in/canvas_size, cond_classes:c_in})
+          print("BBX GENNNNN mx", mx[0].shape)
           images= []
           for j in range(batch_size):
               canvas = np.zeros((canvas_size, canvas_size), dtype= 'float32')
               ii_list = []
-              bb_in, mmx = arrangement(b_in[j], mx[0][j], class_dic[np.argmax(c_in)])
-              try:
-                  for i in range(object_list[object]):
-                      x_min, y_min, x_max, y_max = bb_in[i]
-                      if x_max-x_min > 0 and y_max-y_min>0:
-                          x, y = canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ].shape
-                          canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ] = add_images(canvas[ int(y_min):int(y_max), int(x_min):int(x_max)  ],cv2.resize(bounder(np.squeeze(mmx[i]))*(i+1), (y,x)), i+1)
-                          ii_list.append(i+1)
-              except:
-                  print('no problem')
+              bb_in, mmx, mapping = arrangement(b_in[j], mx[0][j], class_dic[np.argmax(c_in)])
+              
+            #   try:
+              print("This is bb_in", bb_in)
+              for i in range(24):
+                  index = 0
+                  if((bb_in[i] != np.array([0, 0, 0, 0])).all()):
+                      index = mapping[i]
+                  x_min, y_min, x_max, y_max = bb_in[i]
+                  if(x_min > x_max):
+                    x_max, x_min = x_min, x_max
+                  if(y_min > y_max):
+                    y_max, y_min = y_min, y_max
+                  if x_max-x_min >=1 and y_max-y_min>=1:
+                      print("This is final i", i)
+                      x, y = canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ].shape
+                      canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ] = add_images(canvas[ int(y_min):int(y_max), int(x_min):int(x_max)  ],cv2.resize(bounder(np.squeeze(mmx[i]))*(i+1), (y,x)), i+1)
+                      ii_list.append(index+1)
+            #   except:
+            #       print('no problem')
               print("--------------------------------------------")
+              cv2.imwrite("canvas.jpg", canvas)
               final_coords = []
-              print("Object List yo yoy o", object_list)
+              sza = 10
+              plt.figure(num=None, figsize=(sza, sza))
+              plt.axis('off')
+              plt.imshow(label_2_image(canvas))
+              plt.savefig('masked.png')
+            #   print("Object List yo yoy o", object_list)
               for i in ii_list:
                 key_value = {}
                 result = np.where(canvas == i)
@@ -386,7 +404,7 @@ def masked_call(object,bb):
                     out.append(out1)
                 result = out
                 out = []
-                print("I is printed here", i)
+                # print("I is printed here", i)
                 # color = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
                 # labels_text = []
                 labels_main = part_labels[object]
@@ -408,13 +426,8 @@ def masked_call(object,bb):
                 key_value["fill"] = fill
                 key_value["key"] = key
                 final_coords.append(key_value)
-                print(i, out)
+                # print(i, out)
               images.append(canvas)
-              sza = 10
-              plt.figure(num=None, figsize=(sza, sza))
-              plt.axis('off')
-              plt.imshow(label_2_image(canvas))
-              plt.savefig('masked.png')
             #   img = Image.open("./masked_1.png")
             #   img = img.resize((700, 700), Image.ANTIALIAS)
             #   img.save("masked.png")
