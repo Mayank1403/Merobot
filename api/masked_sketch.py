@@ -363,6 +363,7 @@ def masked_call(object,bb):
           for j in range(batch_size):
               canvas = np.zeros((canvas_size, canvas_size), dtype= 'float32')
               ii_list = []
+              canvas_ii_list = []
               bb_in, mmx, mapping = arrangement(b_in[j], mx[0][j], class_dic[np.argmax(c_in)])
               
             #   try:
@@ -381,6 +382,7 @@ def masked_call(object,bb):
                       x, y = canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ].shape
                       canvas[ int(y_min):int(y_max), int(x_min):int(x_max) ] = add_images(canvas[ int(y_min):int(y_max), int(x_min):int(x_max)  ],cv2.resize(bounder(np.squeeze(mmx[i]))*(i+1), (y,x)), i+1)
                       ii_list.append(index+1)
+                      canvas_ii_list.append(i+1)
             #   except:
             #       print('no problem')
               print("--------------------------------------------")
@@ -398,8 +400,7 @@ def masked_call(object,bb):
             #   print("Object List yo yoy o", object_list)
               for i in ii_list:
                 key_value = {}
-                result = np.where(canvas == i)
-                print("This is ii_list wowo wowow",result)
+                result = np.where(canvas == canvas_ii_list[ii_list.index(i)])
                 # print("Life kharab hai \n\n\n",type(result[0][0]))
                 out = []
                 for me in result:
@@ -417,12 +418,12 @@ def masked_call(object,bb):
                 keys = list(labels_main.keys())
                 position = values.index(i)
                 # labels_text.append(keys[position])
-                
+                color_i = canvas_ii_list[ii_list.index(i)]
                 out = [x for xs in zip(result[1], result[0]) for x in xs]
                 label = keys[position]
                 closed = True
-                stroke = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
-                fill = str(rgb_to_hex((int(label_to_color[i][0]*255), int(label_to_color[i][1]*255), int(label_to_color[i][2]*255))))
+                stroke = str(rgb_to_hex((int(label_to_color[color_i][0]*255), int(label_to_color[color_i][1]*255), int(label_to_color[color_i][2]*255))))
+                fill = str(rgb_to_hex((int(label_to_color[color_i][0]*255), int(label_to_color[color_i][1]*255), int(label_to_color[color_i][2]*255))))
                 key = i
                 key_value["points"] = out
                 key_value["label"] = label
