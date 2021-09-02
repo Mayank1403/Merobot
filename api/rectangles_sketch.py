@@ -8,6 +8,7 @@ from tensorflow.keras import backend as K
 from IPython.display import clear_output
 import sys
 import cv2
+from PIL import Image
 
 max_num_node = 24
 canvas_size = 550
@@ -944,6 +945,10 @@ def rectangle_call(object_name,labelss,ind):
               print("Coords",coords)
               
               plt.savefig('rectangle.png')
+              im = Image.open(r"./rectangle.png")
+              width, height = im.size
+              im1 = im.crop((250, 250, width-220, height-220))
+              im1.save("rectangle.png")
             #   img = cv2.imread("./rectangle.png", 1)
             #   bigger = cv2.resize(img, (8000, 8000))
             # #   cv2.imwrite("rectangle.png", bigger)

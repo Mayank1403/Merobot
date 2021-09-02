@@ -391,10 +391,15 @@ def masked_call(object,bb):
               plt.axis('off')
               plt.imshow(label_2_image(canvas))
               plt.savefig('masked.png')
+              im = Image.open(r"./masked.png")
+              width, height = im.size
+              im1 = im.crop((250, 250, width-220, height-220))
+              im1.save("masked.png")
             #   print("Object List yo yoy o", object_list)
               for i in ii_list:
                 key_value = {}
                 result = np.where(canvas == i)
+                print("This is ii_list wowo wowow",result)
                 # print("Life kharab hai \n\n\n",type(result[0][0]))
                 out = []
                 for me in result:
