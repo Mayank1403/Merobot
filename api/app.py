@@ -118,7 +118,7 @@ def send_images(object):
     if(object in animals):
         return{
             'images': [
-                'https://lh3.googleusercontent.com/_uruT_g84q8u7KxX3n072XAkhAct_9qFzQxgg5JS5ZIWdE0PZZQvd4PftgHn2Hr69kUEhvZdkQatk__l08Sjq3Hg3SZiKVIhVKL6p5vteZRp4dI6SLE_MOHEkT7VMgHdYQXKDSZDgw=w2400',
+                "data:image/png;base64, " + get_response_image('./code/code/C-SPADE/datasets/RGB/'+object+'_0.png'),
                 "data:image/png;base64, " + get_response_image('rectangle.png'),
                 "data:image/png;base64, " + get_response_image('masked.png'),
             ],
