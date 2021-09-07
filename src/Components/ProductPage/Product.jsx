@@ -33,7 +33,7 @@ export default function Product() {
     setLoader(true);
     dispatch(addUserChat(USER, text));
     axios
-      .get(`http://127.0.0.1:5000/images/${text}`)
+      .get(`http://10.4.16.102:5000/images/${text}`)
       .then((res) => {
         setText("");
         dispatch(storeImages(res.data.images))
@@ -64,7 +64,7 @@ export default function Product() {
           message: `What do you want to ${text}`,
         })
       );
-      axios.get(`http://127.0.0.1:5000/open/${text}`).then((res) => {
+      axios.get(`http://10.4.16.102:5000/open/${text}`).then((res) => {
         setBodyParts(res.data.parts);
         getModal(res.data.model);
       });
@@ -77,7 +77,7 @@ export default function Product() {
       alert("Invalid Input");
     } else {
       axios
-        .get(`http://127.0.0.1:5000/process/${process}`)
+        .get(`http://10.4.16.102:5000/process/${process}`)
         .then((res) => {
           if (process.toLowerCase() === "update") {
             dispatch(setRectangles(res.data.lists));

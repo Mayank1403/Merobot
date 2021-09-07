@@ -14,6 +14,15 @@ from rectangles_sketch import rgb_to_hex
 from PIL import Image
 
 
+# for process after masked image for 3rd model 
+import importlib.util as ilu
+folder = './code/code/C-SPADE/datasets'
+file = 'convert'
+spec = ilu.spec_from_file_location(file, folder)
+your_lib = ilu.module_from_spec(spec)
+spec.loader.exec_module(your_lib)
+####################################
+
 max_num_node = 24
 
 canvas_size = 550
@@ -393,6 +402,8 @@ def masked_call(object,bb):
               plt.axis('off')
               plt.imshow(label_2_image(canvas))
               plt.savefig('masked.png')
+              plt.savefig('./code/code/maskedResults/'+object+'_0.png')
+              your_lib.convert_image()
               im = Image.open(r"./masked.png")
               width, height = im.size
               im1 = im.crop((250, 250, width-220, height-220))

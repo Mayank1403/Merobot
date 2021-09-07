@@ -14,6 +14,8 @@ from rectangles_sketch import object_list, class_dic, rectangle_call, animals
 import io
 from base64 import encodebytes
 from PIL import Image
+
+# your_lib.convert_image()
 # from flask import jsonify
 
 #%%
@@ -264,7 +266,8 @@ def update_coords(process):
     }
 
 if(__name__ == '__main__'):
-    app.run(debug=True)
+    app.debug = True
+    app.run(host="0.0.0.0")
 
 # %%
 
