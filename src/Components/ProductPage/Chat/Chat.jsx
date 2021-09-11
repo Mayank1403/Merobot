@@ -11,6 +11,7 @@ import {
 import RectangleCanvasModal from "../../RectangleCanvasModal/RectangleCanvasModal";
 import LineCanvasModal from "../../LineCanvasModal/LineCanvasModal";
 import { storeImages } from "../../../Redux/Ducks/Images";
+import { getServerdata } from "../../../Redux/Ducks/Serverdata";
 import axios from "axios";
 
 const Chat = ({ model }) => {
@@ -35,6 +36,7 @@ const Chat = ({ model }) => {
       // axios.post("http://96d1-14-139-82-6.ngrok.io/update", RectangleData).then((res) => {
 
         dispatch(storeImages(res.data.images));
+        dispatch(getServerdata(res.data.data));
         const data = {
           sender: BOT,
           hasImage: true,
@@ -48,6 +50,7 @@ const Chat = ({ model }) => {
         // .post("http://96d1-14-139-82-6.ngrok.io/add", { label_name: add_part })
         .then((res) => {
           dispatch(storeImages(res.data.images));
+          dispatch(getServerdata(res.data.data));
           const data = {
             sender: BOT,
             hasImage: true,
@@ -62,6 +65,7 @@ const Chat = ({ model }) => {
         // .post("http://96d1-14-139-82-6.ngrok.io/remove", { label_name: add_part })
         .then((res) => {
           dispatch(storeImages(res.data.images));
+          dispatch(getServerdata(res.data.data));
           const data = {
             sender: BOT,
             hasImage: true,
