@@ -31,6 +31,8 @@ const Chat = ({ model }) => {
     console.log(process);
     if (process === "Update") {
       axios.post("http://10.4.16.102:5000/update", RectangleData).then((res) => {
+      // axios.post("http://96d1-14-139-82-6.ngrok.io/update", RectangleData).then((res) => {
+
         dispatch(storeImages(res.data.images));
         const data = {
           sender: BOT,
@@ -41,7 +43,8 @@ const Chat = ({ model }) => {
       });
     } else if (process === "Add") {
       axios
-        .post("http://10.4.16.102:5000/add", { label_name: add_part })
+      .post("http://10.4.16.102:5000/add", { label_name: add_part })
+        // .post("http://96d1-14-139-82-6.ngrok.io/add", { label_name: add_part })
         .then((res) => {
           dispatch(storeImages(res.data.images));
           const data = {
@@ -54,7 +57,8 @@ const Chat = ({ model }) => {
     }
     else if (process === "Remove") {
       axios
-        .post("http://10.4.16.102:5000/remove", { label_name: add_part })
+      .post("http://10.4.16.102:5000/remove", { label_name: add_part })
+        // .post("http://96d1-14-139-82-6.ngrok.io/remove", { label_name: add_part })
         .then((res) => {
           dispatch(storeImages(res.data.images));
           const data = {

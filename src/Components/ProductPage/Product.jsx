@@ -34,9 +34,10 @@ export default function Product() {
     dispatch(addUserChat(USER, text));
     axios
       .get(`http://10.4.16.102:5000/images/${text}`)
+      // .get(`http://96d1-14-139-82-6.ngrok.io/images/${text}`)
       .then((res) => {
         setText("");
-        dispatch(storeImages(res.data.images))
+        dispatch(storeImages(res.data.images));
         const data = {
           sender: BOT,
           hasImage: true,
@@ -51,6 +52,7 @@ export default function Product() {
 
   const handleSetProcess = () => {
     setModal("");
+    setLoader(true);
     setProcess(text);
     dispatch(setReduxProcess(text));
     if (text === "") {
@@ -65,8 +67,11 @@ export default function Product() {
         })
       );
       axios.get(`http://10.4.16.102:5000/open/${text}`).then((res) => {
+        // axios.get(`http://96d1-14-139-82-6.ngrok.io/open/${text}`).then((res) => {
+
         setBodyParts(res.data.parts);
         getModal(res.data.model);
+        setLoader(false);
       });
     }
     setText("");
@@ -76,17 +81,22 @@ export default function Product() {
     if (text === "") {
       alert("Invalid Input");
     } else {
+      setLoader(true);
       axios
         .get(`http://10.4.16.102:5000/process/${process}`)
+        // .get(`http://96d1-14-139-82-6.ngrok.io/process/${process}`)
         .then((res) => {
           if (process.toLowerCase() === "update") {
             dispatch(setRectangles(res.data.lists));
+            setLoader(false);
           } else if (
             process.toLowerCase() === "add" ||
             process.toLowerCase() === "remove"
-          )
-          dispatch(setLines(res.data.lists));
-          setModal(modal);
+          ) {
+            setLoader(false);
+            dispatch(setLines(res.data.lists));
+            setModal(modal);
+          }
         })
         .catch((err) => console.log(err));
       dispatch(addUserChat(USER, text));
@@ -97,18 +107,16 @@ export default function Product() {
   };
 
   const checkDisable = () => {
-    if(object==="")
-      return false;
-    if(bodyParts.includes(text) || processList.includes(text))
-      return false;
+    if (object === "") return false;
+    if (bodyParts.includes(text) || processList.includes(text)) return false;
     return true;
-  }
+  };
 
   return (
     <div className={styles.Container}>
       <div className={styles.chatScreen}>
         <Chat model={sendModal} />
-        {loader && <Loader/>}
+        {loader && <Loader />}
       </div>
       <div className={styles.inputContainer}>
         <div className={styles.inputField}>
