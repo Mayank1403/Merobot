@@ -8,7 +8,7 @@ import { Autocomplete } from "@material-ui/lab";
 import Loader from "../Loader/Loader";
 
 import Chat from "./Chat/Chat";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { USER, addUserChat, BOT, addBotChat } from "../../Redux/Ducks/Chat";
 import { setRectangles } from "../../Redux/Ducks/Rectangles";
 import { setLines } from "../../Redux/Ducks/Lines";
@@ -16,6 +16,7 @@ import { setReduxProcess, setReduxAddPart } from "../../Redux/Ducks/Images";
 
 import axios from "axios";
 import { storeImages } from "../../Redux/Ducks/Images";
+import { getServerdata } from "../../Redux/Ducks/Serverdata";
 
 export default function Product() {
   const [text, setText] = useState("");
@@ -27,6 +28,7 @@ export default function Product() {
   const [modal, getModal] = useState("");
   const [sendModal, setModal] = useState("");
   const [loader, setLoader] = useState(false);
+  const serverData = useSelector((state) => state.serverdata);
 
   const handleSetObjectApiCall = () => {
     setObject(text);
@@ -38,6 +40,7 @@ export default function Product() {
       .then((res) => {
         setText("");
         dispatch(storeImages(res.data.images));
+        dispatch(getServerdata(res.data.data));
         const data = {
           sender: BOT,
           hasImage: true,
@@ -66,7 +69,7 @@ export default function Product() {
           message: `What do you want to ${text}`,
         })
       );
-      axios.get(`http://10.4.16.102:5000/open/${text}`).then((res) => {
+      axios.post(`http://10.4.16.102:5000/open/${text}`,serverData).then((res) => {
         // axios.get(`http://96d1-14-139-82-6.ngrok.io/open/${text}`).then((res) => {
 
         setBodyParts(res.data.parts);
@@ -83,7 +86,7 @@ export default function Product() {
     } else {
       setLoader(true);
       axios
-        .get(`http://10.4.16.102:5000/process/${process}`)
+        .post(`http://10.4.16.102:5000/process/${process}`,serverData)
         // .get(`http://96d1-14-139-82-6.ngrok.io/process/${process}`)
         .then((res) => {
           if (process.toLowerCase() === "update") {

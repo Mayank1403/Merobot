@@ -3,12 +3,14 @@ import Chat from "./Ducks/Chat";
 import Rectangles from "./Ducks/Rectangles";
 import Lines from "./Ducks/Lines";
 import Images from "./Ducks/Images";
+import serverdataReducer from "./Ducks/Serverdata";
 
 const allReducers = combineReducers({
   Chat,
   Rectangles,
   Lines,
-  Images
+  Images,
+  serverdata: serverdataReducer
 });
 
 const store = createStore(

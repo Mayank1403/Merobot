@@ -12,7 +12,7 @@
 .leftMessage {
   padding: 10px 0px 10px 10px;
   /* border: 1px solid black; */
-  max-width: 75%;
+  max-width: 85%;
   display: flex;
   /* align-items: center; */
 }
@@ -38,19 +38,30 @@
   background-color: white;
   border-radius: 15px;
   border-top-left-radius: 0px;
-  padding: 7px;
-  max-width: 90%;
+  padding: 5px;
+  max-width: 95%;
 }
 
 .imageDiv {
-  display: inline-flex;
-  justify-content: space-around;
+  display: flex;
+  /* justify-content: space-evenly; */
   width: 100%;
 }
 
 .imageDiv img {
-  max-width: 18vw;
-  max-height: 29vh;
+  flex: 1;
+  padding: 5px;
+  width: 18vw;
+  /* max-height: 29vh; */
+  /* border: 1px red solid; */
+}
+
+.imageDiv p {
+  flex: 1;
+  padding: 5px;
+  width: 18vw;
+  /* height: 29vh; */
+  border: 1px red solid;
 }
 
 .rightMessageContainer {
@@ -78,7 +89,7 @@
   color: white;
 }
 
-.step{
+.step {
   /* border: 1px black solid; */
   text-align: center;
   color: grey;

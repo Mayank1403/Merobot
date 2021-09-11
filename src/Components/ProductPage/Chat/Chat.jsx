@@ -20,7 +20,8 @@ const Chat = ({ model }) => {
   const process = useSelector((state) => state.Images.process);
   const chatRef = useRef(null);
   const dispatch = useDispatch();
-
+  const serverData = useSelector((state) => state.serverdata);
+ 
   const [openModel, setModel] = useState("");
   useEffect(() => {
     setModel(model);
@@ -30,7 +31,7 @@ const Chat = ({ model }) => {
     dispatch(addUserChat(STEP, "Changes"));
     console.log(process);
     if (process === "Update") {
-      axios.post("http://10.4.16.102:5000/update", RectangleData).then((res) => {
+      axios.post("http://10.4.16.102:5000/update", {rect:RectangleData, data:serverData}).then((res) => {
       // axios.post("http://96d1-14-139-82-6.ngrok.io/update", RectangleData).then((res) => {
 
         dispatch(storeImages(res.data.images));
@@ -43,7 +44,7 @@ const Chat = ({ model }) => {
       });
     } else if (process === "Add") {
       axios
-      .post("http://10.4.16.102:5000/add", { label_name: add_part })
+      .post("http://10.4.16.102:5000/add", { label_name: add_part, data: serverData })
         // .post("http://96d1-14-139-82-6.ngrok.io/add", { label_name: add_part })
         .then((res) => {
           dispatch(storeImages(res.data.images));
@@ -57,7 +58,7 @@ const Chat = ({ model }) => {
     }
     else if (process === "Remove") {
       axios
-      .post("http://10.4.16.102:5000/remove", { label_name: add_part })
+      .post("http://10.4.16.102:5000/remove", { label_name: add_part, data: serverData })
         // .post("http://96d1-14-139-82-6.ngrok.io/remove", { label_name: add_part })
         .then((res) => {
           dispatch(storeImages(res.data.images));
@@ -87,6 +88,7 @@ const Chat = ({ model }) => {
                 <div className={styles.imageDiv}>
                   {info.images.map((data, idx) => (
                     <img src={data} alt="produced images" key={idx} />
+                    // <p>{idx}</p>
                   ))}
                 </div>
               ) : (
