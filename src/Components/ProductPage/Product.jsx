@@ -92,6 +92,7 @@ export default function Product() {
           if (process.toLowerCase() === "update") {
             dispatch(setRectangles(res.data.lists));
             setLoader(false);
+            setModal(modal);
           } else if (
             process.toLowerCase() === "add" ||
             process.toLowerCase() === "remove"
