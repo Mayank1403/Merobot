@@ -1,27 +1,20 @@
-import React from 'react';
-import './App.css';
-import {useState} from 'react';
-import Canvas from './Canvas';
-import Rectangle from './Rectangle';
-// import CanvasTry from './CanvasTry';
+import React from "react";
+import Navbar from "./Components/Navbar/Navbar";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import MainPage from "./Components/MainPage/MainPage";
+import LineCanvasModal from "./Components/LineCanvasModal/LineCanvasModal";
 
 function App() {
-  const [selection, setSelection] = useState('pencil');
-
   return (
-    <div className="App">
-      <h1>Hello This is just the starting</h1>
-      <select
-        value = {selection}
-        onChange = {e=>setSelection(e.target.value)}
-      >
-        <option value = "pencil">Pencil</option>
-        <option value = "rectangle">Rectangle</option>
-      </select>
-      {(selection === "pencil") && <Canvas/>}
-      {/* {(selection === "rectangle") && <CanvasTry/>} */}
-      {(selection === "rectangle") && <Rectangle/>}
-    </div>
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        {/* <Route exact path="/product" component={Product} />
+        <Route exact path="/about" component={About} /> */}
+        {/* <Route exact path="/try" component={LineCanvasModal} /> */}
+      </Switch>
+    </Router>
   );
 }
 
