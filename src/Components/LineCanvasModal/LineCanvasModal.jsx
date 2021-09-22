@@ -3,7 +3,7 @@ import styles from "./LineCanvasModal.module.css";
 import Canvas, { LINE } from "../Canvas/Canvas.js";
 import { useSelector } from "react-redux";
 
-export default function LineCanvasModal(props) {
+export default function RectangleCanvasModal(props) {
   const lines = useSelector((state) => state.Lines.line);
   const img1 = useSelector((state) => state.Images.img1);
   const img2 = useSelector((state) => state.Images.img2);
