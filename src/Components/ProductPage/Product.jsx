@@ -83,6 +83,11 @@ export default function Product() {
         .then((res) => {
           if (process.toLowerCase() === "update") {
             dispatch(setRectangles(res.data.lists));
+<<<<<<< HEAD
+=======
+            setLoader(false);
+            setModal(modal);
+>>>>>>> 220a440b53065d50f897bc5c4e69508d31899362
           } else if (
             process.toLowerCase() === "add" ||
             process.toLowerCase() === "remove"
