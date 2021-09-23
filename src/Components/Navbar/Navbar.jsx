@@ -8,15 +8,12 @@ export default function Navbar() {
   const history = useHistory();
   return (
     <div className={styles.Container}>
-      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <div className={styles.logo} onClick={() => history.push("/")}>Logo</div>
-        <img src={logo} className={styles.CollegeLogo}/>
-        <img src={logo1} className={styles.CollegeLogo}/>
+      <div className={styles.logo} onClick={() => history.push("/")}>
+        Merobot
       </div>
       <div className={styles.linksContainer}>
-        <div className={styles.links} onClick={() => history.push("/about")}>
-          About
-        </div>
+        <img src={logo} className={styles.CollegeLogo} />
+        <img src={logo1} className={styles.CollegeLogo} />
       </div>
     </div>
   );
