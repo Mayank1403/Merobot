@@ -50,9 +50,10 @@ export const chat = [
 ];
 
 export const updateObjectList = [
-  "Edit Rectangle Box Image",
-  "Edit Masked Image",
+  "Edit Part Bounding Boxes",
+  "Edit Part Masks",
   "Generate Another Image",
+  "Start Over",
 ];
 
 export const all_parts = [

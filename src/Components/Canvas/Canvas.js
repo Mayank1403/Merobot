@@ -105,6 +105,7 @@ const Canvas = (props) => {
             "Please enter a label for the component",
             "label"
           );
+          
           // check for label here
           const annotationToAdd = {
             x: sx,

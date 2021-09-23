@@ -12,6 +12,10 @@
   cursor: pointer;
 } 
 
+.CollegeLogo{
+  max-height: calc(var(--nav-height) - 7px);
+}
+
 .linksContainer {
   /* border: 1px black solid; */
   display: flex;

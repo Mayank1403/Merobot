@@ -182,6 +182,10 @@ export default function MainPage() {
         dispatch(userText(state));
         setDisableInput(true);
         setShowModal("rectangle");
+      } else if (state === updateObjectList[3]) {
+        // Masked Image Update
+        dispatch(userText(state));
+        dispatch(setStep(1));
       }
       setState("");
     }
