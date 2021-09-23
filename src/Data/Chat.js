@@ -49,7 +49,11 @@ export const chat = [
   },
 ];
 
-export const updateObjectList = ["Edit Reactangle Box Image", "Edit Masked Image", "Generate Another Image"]
+export const updateObjectList = [
+  "Edit Rectangle Box Image",
+  "Edit Masked Image",
+  "Generate Another Image",
+];
 
 export const all_parts = [
   { part: "head", full_part: "Head" },
@@ -73,4 +77,31 @@ export const all_parts = [
   { part: "tail", full_part: "Tail" },
 ];
 
-export const generationProcessList = ["Random Parts", "Specific Parts"]
+export const generationProcessList = ["Random Parts", "Specific Parts"];
+
+export const colorsList = [
+  "#ff0000",
+  "#bb8f8f",
+  "#4169e0",
+  "#8a4512",
+  "#f98071",
+  "#f9a35f",
+  "#2d8a56",
+  "#800080",
+  "#9f522c",
+  "#c0c0c0",
+  "#86ceeb",
+  "#6a5acd",
+  "#6f8090",
+  "#c74d90",
+  "#dd9fdd",
+  "#00ff7e",
+  "#4682b4",
+  "#d2b48b",
+  "#008080",
+  "#d7bed7",
+  "#ff6246",
+  "#40dfd0",
+  "#ed82ed",
+  "#f5deb3",
+];

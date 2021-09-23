@@ -76,6 +76,18 @@ export default function MainPage() {
       });
   };
 
+  const getAllPartsForRandom = () => {
+    axios
+      .get(`${baseUrl}${objectName}/parts`)
+      .then((response) => {
+        console.log(response);
+        dispatch(setAllParts(response.data.parts));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const generateImageAPI = (specificPartsList, method) => {
     dispatch(addLoadingChat());
     setDisableInput(true);
@@ -132,34 +144,42 @@ export default function MainPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (stepStore.currentStep === 1) {
-      dispatch(userText(state));
-      dispatch(botText(`How will you like to generate image for ${state}`));
-      dispatch(setObjectName(state.toLowerCase()));
-      dispatch(setStep(2));
-      setState("");
+      if (state !== "") {
+        dispatch(userText(state));
+        dispatch(botText(`How will you like to generate image for ${state}`));
+        dispatch(setObjectName(state.toLowerCase()));
+        dispatch(setStep(2));
+        setState("");
+      }
     } else if (stepStore.currentStep === 2) {
-      dispatch(userText(state));
       if (state === generationProcessList[1]) {
+        setDisableCheckBox(false);
+        dispatch(userText(state));
         setDisableInput(true);
         getAllParts();
-      } else generateImageAPI([], "random");
-      dispatch(setStep(3));
+        dispatch(setStep(3));
+      } else if (state === generationProcessList[0]) {
+        dispatch(userText(state));
+        getAllPartsForRandom();
+        generateImageAPI([], "random");
+        dispatch(setStep(3));
+      }
       setState("");
     } else if (stepStore.currentStep === 3) {
-      dispatch(userText(state));
       if (state === updateObjectList[2]) {
-        //Generate Another Image
-        if (specificPartsList.length > 0) {
-          generateImageAPI(specificPartsList, "specific");
-        } else {
-          generateImageAPI([], "random");
-        }
+        dispatch(userText(state));
+        dispatch(
+          botText(`How will you like to generate image for ${objectName}`)
+        );
+        dispatch(setStep(2));
       } else if (state === updateObjectList[1]) {
         // Masked Image Update
+        dispatch(userText(state));
         setDisableInput(true);
         setShowModal("masked");
       } else if (state === updateObjectList[0]) {
         // Masked Image Update
+        dispatch(userText(state));
         setDisableInput(true);
         setShowModal("rectangle");
       }

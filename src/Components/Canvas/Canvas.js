@@ -7,6 +7,11 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setRectangles } from "../../Redux/Ducks/RectanglesStore";
 import { setLines } from "../../Redux/Ducks/LinesStore";
+import {
+  removeRemainingParts,
+  addRemainingParts,
+} from "../../Redux/Ducks/ServerStore";
+import { colorsList } from "../../Data/Chat";
 
 export const RECTANGLE = "rectangle";
 export const LINE = "line";
@@ -16,6 +21,7 @@ const Canvas = (props) => {
   // const part_added = useSelector((state) => state.Images.add_part) || "";
   const part_added = "";
   const rectangles = useSelector((state) => state.Rectangles.rect); //main array of objects
+  const allParts = useSelector((state) => state.DetailsStore.allParts); //array of objects
 
   const [newAnnotation, setNewAnnotation] = useState([]); //temporary array of object
   const [selectedId, selectShape] = useState(null);
@@ -30,6 +36,16 @@ const Canvas = (props) => {
   const color = props.color;
   const fillColor = props.fillColor;
 
+  // get index from a dict
+  const getIndex = (label) => {
+    let i;
+    for (i = 0; i < allParts.length; i++) {
+      if (allParts[i].full_part.toLowerCase() === label.toLowerCase()) {
+        return i;
+      }
+    }
+    return -1;
+  };
   // const rect = props.tool === RECTANGLE;
 
   //Rectangle Helper Functions--------------------------------------------
@@ -96,7 +112,10 @@ const Canvas = (props) => {
             width: x - sx,
             height: y - sy,
             key: rectangles.length + 1,
-            stroke: color,
+            stroke:
+              colorsList[
+                getIndex(input_label) !== -1 ? getIndex(input_label) : "black"
+              ],
             strokeWidth: 5,
             label: input_label,
           };
@@ -104,6 +123,7 @@ const Canvas = (props) => {
           if (close && input_label !== null) items.push(annotationToAdd);
           // setNewAnnotation([]);
           // setRectangles(rectangles);
+          dispatch(removeRemainingParts(input_label));
           dispatch(setRectangles(items));
         }
         setNewAnnotation([]);
@@ -193,15 +213,20 @@ const Canvas = (props) => {
             points: newLine[0].points,
             label: input_label,
             closed: close,
-            stroke: fillColor,
-            fill: fillColor,
+            stroke:
+              colorsList[
+                getIndex(input_label) !== -1 ? getIndex(input_label) : "black"
+              ],
+            fill: colorsList[
+              getIndex(input_label) !== -1 ? getIndex(input_label) : "black"
+            ],
             key: lines.length + 1,
           };
           items.push(newToAdd);
           alert(input_label + " has been added.");
+          dispatch(removeRemainingParts(input_label));
         }
       }
-
       setNewLine([]);
       dispatch(setLines(items));
     }
@@ -245,6 +270,7 @@ const Canvas = (props) => {
                     const index = items.indexOf(item);
                     items.splice(index, 1);
                     // setRectangles(items);
+                    dispatch(addRemainingParts(value.label));
                     dispatch(setRectangles(items));
                     return;
                   }
@@ -268,6 +294,7 @@ const Canvas = (props) => {
                   const item = lines.find((i) => i.key === line.key);
                   const index = items.indexOf(item);
                   items.splice(index, 1);
+                  dispatch(addRemainingParts(line.label));
                   dispatch(setLines(items));
                   return;
                 }

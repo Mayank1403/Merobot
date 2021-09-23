@@ -3,14 +3,19 @@ import styles from "./LineCanvasModal.module.css";
 import Canvas, { LINE } from "../Canvas/Canvas.js";
 import { useSelector } from "react-redux";
 import { BsPencil } from "react-icons/bs";
+import { BiEraser } from "react-icons/bi";
 
 export default function LineCanvasModal(props) {
   const lines = useSelector((state) => state.Lines.line);
   const imageStore = useSelector((state) => state.ImageStore);
+  const remainingPartsList = useSelector(
+    (state) => state.ServerStore.remaining_parts
+  );
 
   // const [color, setColor] = useState("#000000");
   const color = "#000000";
   const [fillColor, setFillColor] = useState("#FeB142");
+
   //delete
   const [selection, setSelection] = useState("pencil");
   return (
@@ -43,31 +48,56 @@ export default function LineCanvasModal(props) {
               onClick={(e) => setSelection("pencil")}
               className={styles.optionIcons}
             />
-          </div>
-          <div className={styles.input}>
-            <input
-              type="color"
-              value={fillColor}
-              id="fillPicker"
-              onChange={(e) => setFillColor(e.target.value)}
+            <BiEraser
+              onClick={(e) => setSelection("eraser")}
+              className={styles.optionIcons}
             />
-            <label for="fillPicker">Colour</label>
           </div>
-          <table className={styles.Table}>
-            <tr>
-              <th>Part</th>
-              <th>Color</th>
-            </tr>
-            {lines.map((line, index) => (
-              <tr key={index}>
-                <td>{line.label}</td>
-                <td
+          <div>
+            <h4>List of existing parts</h4>
+            <table className={styles.Table}>
+              <tr>
+                <th>Part</th>
+                <th>Color</th>
+              </tr>
+              {lines.map((line, index) => (
+                <tr key={index}>
+                  <td>{line.label}</td>
+                  <td
+                    className={styles.Td}
+                    style={{ backgroundColor: line.stroke }}
+                  ></td>
+                </tr>
+              ))}
+            </table>
+            {/* {lines.map((line, index) => (
+              <div className={styles.labelsUsed}>
+                <p>{line.label}</p>
+                <div
                   className={styles.Td}
                   style={{ backgroundColor: line.stroke }}
-                ></td>
+                ></div>
+              </div>
+            ))} */}
+          </div>
+          <div>
+            <h4>List of remaining parts</h4>
+            {/* <table className={styles.Table}>
+              <tr>
+                <th>Part</th>
               </tr>
-            ))}
-          </table>
+              {remainingPartsList.map((part, index) => (
+                <tr key={index}>
+                  <td className={styles.remaining}>{part.full_part}</td>
+                </tr>
+              ))}
+            </table> */}
+            <ul className={styles.remaining}>
+              {remainingPartsList.length ? remainingPartsList.map((part, index) => (
+                <li key={index}>{part.full_part}</li>
+              )): <p>No parts remaining</p>}
+            </ul>
+          </div>
           <div className={styles.Button} onClick={props.isDone}>
             Done
           </div>
