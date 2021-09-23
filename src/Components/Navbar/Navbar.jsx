@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div className={styles.Container}>
       <div className={styles.logo} onClick={() => history.push("/")}>
-        Logo
+        Merobot
       </div>
       <div className={styles.linksContainer}>
         <div className={styles.links} onClick={() => history.push("/about")}>
